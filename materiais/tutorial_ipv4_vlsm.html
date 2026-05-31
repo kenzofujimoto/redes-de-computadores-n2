@@ -1,0 +1,590 @@
+
+<style>
+  *{box-sizing:border-box;}
+  .tab-bar{display:flex;flex-wrap:wrap;gap:6px;padding-top:1rem;margin-bottom:16px;}
+  .tab{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 14px;font-size:13px;cursor:pointer;color:var(--color-text-primary);}
+  .tab:hover{background:var(--color-background-secondary);}
+  .tab.on{background:#E6F1FB;border-color:#378ADD;color:#0C447C;font-weight:500;}
+  .sec{display:none;}.sec.on{display:block;}
+  .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px;}
+  h3{font-size:15px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary);}
+  h4{font-size:13px;font-weight:500;margin:12px 0 6px;color:var(--color-text-primary);}
+  p,li{font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 4px;}
+  ul{margin:4px 0 8px;padding-left:18px;}
+  code{font-family:var(--font-mono);font-size:12px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px;color:var(--color-text-primary);}
+  .step-row{display:flex;gap:10px;margin:8px 0;align-items:flex-start;}
+  .num{width:24px;height:24px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px;}
+  .step-body{flex:1;}
+  .step-label{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 3px;}
+  .step-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin:0;}
+  .formula{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 14px;font-family:var(--font-mono);font-size:12px;color:var(--color-text-primary);margin:8px 0;line-height:1.8;white-space:pre-wrap;}
+  .ok{background:#E1F5EE;border-left:3px solid #1D9E75;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:7px 12px;margin:8px 0;}
+  .ok p{color:#085041;font-size:13px;margin:0;}
+  .warn{background:#FAEEDA;border-left:3px solid #EF9F27;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:7px 12px;margin:8px 0;}
+  .warn p{color:#633806;font-size:13px;margin:0;}
+  .ans{display:inline-block;background:#E6F1FB;border:0.5px solid #378ADD;border-radius:var(--border-radius-md);padding:5px 12px;font-size:13px;font-weight:500;color:#0C447C;margin:4px 0;}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500;margin:0 4px 6px 0;}
+  .ba{background:#E6F1FB;color:#0C447C;}
+  .bt{background:#E1F5EE;color:#085041;}
+  .bam{background:#FAEEDA;color:#633806;}
+  .bp{background:#EEEDFE;color:#26215C;}
+  hr.div{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:14px 0;}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;margin:10px 0;}
+  .mini{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;}
+  .mini .lbl{font-size:11px;color:var(--color-text-secondary);margin:0 0 3px;}
+  .mini .val{font-size:14px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-mono);}
+  .bit-row{display:flex;flex-wrap:wrap;gap:2px;margin:8px 0;}
+  .bit{width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--font-mono);border-radius:4px;font-weight:500;}
+  .b1{background:#E6F1FB;color:#0C447C;}
+  .b0{background:var(--color-background-secondary);color:var(--color-text-secondary);}
+  .bh{background:#FAEEDA;color:#633806;}
+  .bsep{width:6px;}
+  .nav-btn{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:6px 14px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);margin-top:10px;}
+  .nav-btn:hover{background:var(--color-background-primary);}
+  .nav-btn.primary{background:#378ADD;color:#fff;border-color:#378ADD;}
+  .nav-btn.primary:hover{background:#185FA5;}
+  .stepper{margin:10px 0;}
+  .step-slide{display:none;}.step-slide.on{display:block;}
+  .prog{display:flex;gap:4px;margin-bottom:14px;}
+  .prog-dot{width:8px;height:8px;border-radius:50%;background:var(--color-border-secondary);cursor:pointer;}
+  .prog-dot.on{background:#378ADD;}
+  .calc-row{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px;color:var(--color-text-secondary);}
+  .calc-op{color:var(--color-text-primary);font-weight:500;font-family:var(--font-mono);}
+  .hl{color:#185FA5;font-weight:500;}
+  .hl-red{color:#A32D2D;font-weight:500;}
+  .hl-g{color:#27500A;font-weight:500;}
+  table.t{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;}
+  table.t th{background:var(--color-background-secondary);padding:5px 8px;text-align:left;font-weight:500;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-secondary);}
+  table.t td{padding:5px 8px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);}
+  .ask-btn{font-size:12px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:5px 10px;color:var(--color-text-secondary);margin-top:8px;}
+  .ask-btn:hover{background:var(--color-background-secondary);}
+</style>
+
+<h2 class="sr-only">Tutorial interativo de cálculo IPv4 e VLSM passo a passo</h2>
+
+<div class="tab-bar">
+  <button class="tab on" onclick="sw('ipv4')">Parte 1 — IPv4 passo a passo</button>
+  <button class="tab" onclick="sw('vlsm')">Parte 2 — VLSM passo a passo</button>
+  <button class="tab" onclick="sw('calc')">Calculadora interativa</button>
+</div>
+
+<!-- ===== PARTE 1: IPv4 ===== -->
+<div id="ipv4" class="sec on">
+
+  <div class="card">
+    <span class="badge ba">Método geral</span>
+    <h3>Como resolver qualquer exercício de IPv4 — os 3 conceitos que você precisa</h3>
+
+    <div class="step-row">
+      <div class="num">1</div>
+      <div class="step-body">
+        <p class="step-label">Entenda o que o prefixo diz</p>
+        <p class="step-desc">O número após a barra (<code>/28</code>) indica quantos bits são da rede. Os bits restantes (32 − prefixo) são de host.</p>
+        <div class="formula">Bits de host = 32 − prefixo
+/28  →  32 − 28 = 4 bits de host
+/26  →  32 − 26 = 6 bits de host
+/24  →  32 − 24 = 8 bits de host</div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="num">2</div>
+      <div class="step-body">
+        <p class="step-label">Calcule o tamanho do bloco</p>
+        <p class="step-desc">O bloco é o "salto" entre redes consecutivas. É sempre uma potência de 2.</p>
+        <div class="formula">Bloco = 2^(bits de host)
+/28  →  2^4  = 16
+/26  →  2^6  = 64
+/24  →  2^8  = 256</div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="num">3</div>
+      <div class="step-body">
+        <p class="step-label">Encontre a rede do IP</p>
+        <p class="step-desc">Divida o octeto relevante pelo bloco, pegue só a parte inteira e multiplique de volta.</p>
+        <div class="formula">Rede = floor(octeto ÷ bloco) × bloco
+
+Ex: IP = 209.98.85.145  /28  → bloco = 16
+145 ÷ 16 = 9,0625 → floor = 9
+Rede = 9 × 16 = 144   →   209.98.85.<span class="hl">144</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge ba">Exemplo 1</span><span class="badge bam">189.251.75.89/26</span>
+    <h3>Resolvendo passo a passo — prefixo no 4º octeto</h3>
+
+    <div class="stepper" id="s1">
+      <div class="prog" id="p1"></div>
+
+      <div class="step-slide on" data-s="0">
+        <h4>Passo 1 — ler o prefixo</h4>
+        <div class="formula">Endereço:  189.251.75.89 / <span class="hl">26</span>
+Prefixo:   26 bits de rede
+Bits host: 32 − 26 = <span class="hl">6 bits</span></div>
+        <div class="bit-row">
+          <span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span>
+          <span class="bsep"></span>
+          <span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span>
+          <span class="bsep"></span>
+          <span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span><span class="bit b1">1</span>
+          <span class="bsep"></span>
+          <span class="bit b1">1</span><span class="bit b1">1</span><span class="bit bh">0</span><span class="bit bh">0</span><span class="bit bh">0</span><span class="bit bh">0</span><span class="bit bh">0</span><span class="bit bh">0</span>
+        </div>
+        <p style="font-size:12px;color:var(--color-text-secondary);">Azul = bits de rede (26) · Laranja = bits de host (6)</p>
+        <p style="font-size:12px;color:var(--color-text-secondary);">Máscara decimal: 255.255.255.<strong>192</strong> (128+64=192)</p>
+      </div>
+
+      <div class="step-slide" data-s="1">
+        <h4>Passo 2 — calcular o bloco</h4>
+        <div class="formula">Bloco = 2^6 = <span class="hl">64</span>
+
+Redes /26 no 4º octeto (0 a 255):
+  0  → 0–63
+  64 → 64–127
+  128 → 128–191
+  192 → 192–255</div>
+        <div class="ok"><p>O bloco 64 significa que as redes começam em 0, 64, 128, 192... São 4 sub-redes de /26 dentro de um /24.</p></div>
+      </div>
+
+      <div class="step-slide" data-s="2">
+        <h4>Passo 3 — encontrar a rede do IP</h4>
+        <div class="formula">IP:    189.251.75.<span class="hl">89</span>
+Bloco: 64
+
+89 ÷ 64 = 1,390...  →  floor = <span class="hl">1</span>
+Rede  = 1 × 64      =  <span class="hl">64</span>
+
+Endereço de rede: 189.251.75.<span class="hl">64</span></div>
+      </div>
+
+      <div class="step-slide" data-s="3">
+        <h4>Passo 4 — calcular todos os campos</h4>
+        <div class="formula">Endereço de rede:  189.251.75.<span class="hl">64</span>    (menor IP do bloco)
+1º IP válido:      189.251.75.<span class="hl">65</span>    (rede + 1)
+Último IP válido:  189.251.75.<span class="hl">126</span>   (broadcast − 1)
+Broadcast:         189.251.75.<span class="hl">127</span>   (rede + bloco − 1 = 64+64−1)
+Próxima rede:      189.251.75.<span class="hl">128</span>/26  (broadcast + 1)</div>
+        <div class="grid2">
+          <div class="mini"><p class="lbl">Hosts úteis</p><p class="val">64 − 2 = 62</p></div>
+          <div class="mini"><p class="lbl">Máscara</p><p class="val">255.255.255.192</p></div>
+          <div class="mini"><p class="lbl">Broadcast</p><p class="val">189.251.75.127</p></div>
+          <div class="mini"><p class="lbl">Próxima rede</p><p class="val">189.251.75.128</p></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="nav-btn" onclick="prev('s1','p1',4)">← anterior</button>
+      <button class="nav-btn primary" onclick="next('s1','p1',4)">próximo passo →</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge ba">Exemplo 2</span><span class="badge bam">200.98.178.100/19</span>
+    <h3>Prefixo que "corta" no 3º octeto — como lidar?</h3>
+
+    <div class="stepper" id="s2">
+      <div class="prog" id="p2"></div>
+
+      <div class="step-slide on" data-s="0">
+        <h4>Passo 1 — identificar o octeto relevante</h4>
+        <div class="formula">Prefixo /19:
+  8 bits  → 1º octeto (rede fixa)
+  8 bits  → 2º octeto (rede fixa)
+  3 bits  → 3º octeto (parcialmente rede)
+  ─────────────────────────────────────
+  Total rede: 19 bits
+
+Bits de host restantes: 32 − 19 = 13 bits
+  5 bits no 3º octeto (parte de host)
+  8 bits no 4º octeto (inteiro de host)</div>
+        <div class="warn"><p>Quando o prefixo está entre 8 e 16, o 3º octeto é dividido. Quando está entre 16 e 24, o 4º octeto é dividido. Quando está entre 0 e 8, o 2º octeto é dividido.</p></div>
+      </div>
+
+      <div class="step-slide" data-s="1">
+        <h4>Passo 2 — calcular o bloco no 3º octeto</h4>
+        <div class="formula">O /19 usa 3 bits do 3º octeto para rede,
+sobrando 5 bits para host neste octeto.
+
+Bloco no 3º octeto = 2^5 = <span class="hl">32</span>
+
+Redes /19 no 3º octeto:
+  0   → 0–31
+  32  → 32–63
+  64  → 64–95
+  96  → 96–127
+  128 → 128–159
+  160 → 160–191  ← nosso IP (178) cai aqui
+  192 → 192–223
+  224 → 224–255</div>
+      </div>
+
+      <div class="step-slide" data-s="2">
+        <h4>Passo 3 — encontrar a rede</h4>
+        <div class="formula">IP:    200.98.<span class="hl">178</span>.100
+Bloco no 3º octeto: 32
+
+178 ÷ 32 = 5,5625  →  floor = <span class="hl">5</span>
+Rede no 3º octeto = 5 × 32 = <span class="hl">160</span>
+
+Endereço de rede: 200.98.<span class="hl">160</span>.0</div>
+        <div class="ok"><p>Quando a rede atravessa octetos, o primeiro host válido começa em .0.1 do octeto da rede, e o broadcast termina em .X.255 do último octeto do bloco.</p></div>
+      </div>
+
+      <div class="step-slide" data-s="3">
+        <h4>Passo 4 — preencher todos os campos</h4>
+        <div class="formula">Endereço de rede:  200.98.<span class="hl">160.0</span>
+1º IP válido:      200.98.<span class="hl">160.1</span>
+Último IP válido:  200.98.<span class="hl">191.254</span>
+Broadcast:         200.98.<span class="hl">191.255</span>
+Próxima rede:      200.98.<span class="hl">192.0</span>/19
+
+Lógica do broadcast:
+  3º octeto: 160 + 32 − 1 = <span class="hl">191</span>
+  4º octeto: sempre <span class="hl">255</span> quando o 4º é inteiro de host</div>
+        <div class="grid2">
+          <div class="mini"><p class="lbl">Hosts úteis</p><p class="val">2^13 − 2 = 8190</p></div>
+          <div class="mini"><p class="lbl">Máscara</p><p class="val">255.255.224.0</p></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="nav-btn" onclick="prev('s2','p2',4)">← anterior</button>
+      <button class="nav-btn primary" onclick="next('s2','p2',4)">próximo passo →</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge ba">Referência rápida</span>
+    <h3>Regra do octeto por faixa de prefixo</h3>
+    <table class="t">
+      <tr><th>Prefixo</th><th>Octeto que muda</th><th>Bloco = 2^?</th><th>Exemplo</th></tr>
+      <tr><td>/25–/32</td><td>4º octeto</td><td>2^(32−pref)</td><td>/28 → 2^4=16</td></tr>
+      <tr><td>/17–/24</td><td>3º octeto</td><td>2^(24−pref)</td><td>/19 → 2^5=32</td></tr>
+      <tr><td>/9–/16</td><td>2º octeto</td><td>2^(16−pref)</td><td>/14 → 2^2=4</td></tr>
+      <tr><td>/1–/8</td><td>1º octeto</td><td>2^(8−pref)</td><td>/7 → 2^1=2</td></tr>
+    </table>
+    <div class="ok"><p>Fórmula universal: <code>bloco = 2^(próximo múltiplo de 8 acima do prefixo − prefixo)</code></p></div>
+  </div>
+</div>
+
+<!-- ===== PARTE 2: VLSM ===== -->
+<div id="vlsm" class="sec">
+
+  <div class="card">
+    <span class="badge bt">O método VLSM</span>
+    <h3>A lógica por trás do VLSM</h3>
+    <div class="step-row">
+      <div class="num">1</div>
+      <div class="step-body">
+        <p class="step-label">Ordene as redes da maior para a menor</p>
+        <p class="step-desc">Sempre aloque o maior bloco primeiro. Se começar pelo menor, pode não sobrar espaço contíguo para os grandes.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="num">2</div>
+      <div class="step-body">
+        <p class="step-label">Escolha o menor prefixo que acomoda os hosts</p>
+        <p class="step-desc">Hosts úteis = 2^n − 2. Escolha o menor n onde isso é ≥ quantidade pedida. Prefixo = 32 − n.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="num">3</div>
+      <div class="step-body">
+        <p class="step-label">A próxima rede começa no broadcast + 1</p>
+        <p class="step-desc">Depois de calcular o broadcast da rede atual, some 1 para obter o início da próxima. Sem pular, sem desperdiçar.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="num">4</div>
+      <div class="step-body">
+        <p class="step-label">Gateway = último IP válido (por padrão do professor)</p>
+        <p class="step-desc">O gateway de cada VLAN é o último endereço antes do broadcast: <code>broadcast − 1</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge bt">Exemplo VLSM</span><span class="badge bam">10.0.0.0/8</span>
+    <h3>VLANs: A=1000, B=200, C=50, D=10, E=2</h3>
+    <p style="font-size:13px;color:var(--color-text-secondary);">Este é o exercício gabaritado do professor. Acompanhe o raciocínio.</p>
+
+    <div class="stepper" id="s3">
+      <div class="prog" id="p3"></div>
+
+      <div class="step-slide on" data-s="0">
+        <h4>Passo 1 — escolha do prefixo para cada VLAN</h4>
+        <table class="t">
+          <tr><th>VLAN</th><th>Hosts pedidos</th><th>2^n − 2 ≥ hosts?</th><th>Prefixo</th></tr>
+          <tr><td>A</td><td>1000</td><td>2^10 − 2 = 1022 ✓</td><td>/22</td></tr>
+          <tr><td>B</td><td>200</td><td>2^8 − 2 = 254 ✓</td><td>/24</td></tr>
+          <tr><td>C</td><td>50</td><td>2^6 − 2 = 62 ✓</td><td>/26</td></tr>
+          <tr><td>D</td><td>10</td><td>2^4 − 2 = 14 ✓</td><td>/28</td></tr>
+          <tr><td>E</td><td>2</td><td>2^2 − 2 = 2 ✓</td><td>/30</td></tr>
+        </table>
+        <div class="ok"><p>Sempre escolha o n mínimo. Ex: 1000 hosts — n=10 dá 1022, que é suficiente. n=9 daria 510, insuficiente.</p></div>
+      </div>
+
+      <div class="step-slide" data-s="1">
+        <h4>Passo 2 — VLAN A (1000 hosts → /22)</h4>
+        <div class="formula">Rede base: 10.0.0.0
+Prefixo /22 → bloco no 3º octeto = 2^(24−22) = 2^2 = 4
+
+Rede:          10.0.<span class="hl">0</span>.0
+Broadcast:     10.0.<span class="hl">3</span>.255  (0 + 4 − 1 = 3 no 3º octeto)
+1º válido:     10.0.0.1
+Último válido: 10.0.3.254
+Gateway:       10.0.3.254
+
+Próxima rede:  10.0.<span class="hl">4</span>.0  (broadcast + 1 no 3º octeto)</div>
+      </div>
+
+      <div class="step-slide" data-s="2">
+        <h4>Passo 3 — VLAN B (200 hosts → /24)</h4>
+        <div class="formula">Começa onde a VLAN A terminou: 10.0.<span class="hl">4</span>.0
+Prefixo /24 → bloco inteiro no 3º octeto = 256
+
+Rede:          10.0.<span class="hl">4</span>.0
+Broadcast:     10.0.<span class="hl">4</span>.255
+1º válido:     10.0.4.1
+Último válido: 10.0.4.254
+Gateway:       10.0.4.254
+
+Próxima rede:  10.0.<span class="hl">5</span>.0</div>
+      </div>
+
+      <div class="step-slide" data-s="3">
+        <h4>Passo 4 — VLAN C (50 hosts → /26)</h4>
+        <div class="formula">Começa em: 10.0.5.<span class="hl">0</span>
+Prefixo /26 → bloco no 4º octeto = 2^6 = 64
+
+Rede:          10.0.5.<span class="hl">0</span>
+Broadcast:     10.0.5.<span class="hl">63</span>   (0 + 64 − 1)
+1º válido:     10.0.5.1
+Último válido: 10.0.5.62
+Gateway:       10.0.5.62
+
+Próxima rede:  10.0.5.<span class="hl">64</span></div>
+      </div>
+
+      <div class="step-slide" data-s="4">
+        <h4>Passo 5 — VLAN D (10 hosts → /28)</h4>
+        <div class="formula">Começa em: 10.0.5.<span class="hl">64</span>
+Prefixo /28 → bloco no 4º octeto = 2^4 = 16
+
+Rede:          10.0.5.<span class="hl">64</span>
+Broadcast:     10.0.5.<span class="hl">79</span>   (64 + 16 − 1)
+1º válido:     10.0.5.65
+Último válido: 10.0.5.78
+Gateway:       10.0.5.78
+
+Próxima rede:  10.0.5.<span class="hl">80</span></div>
+      </div>
+
+      <div class="step-slide" data-s="5">
+        <h4>Passo 6 — VLAN E (2 hosts → /30)</h4>
+        <div class="formula">Começa em: 10.0.5.<span class="hl">80</span>
+Prefixo /30 → bloco no 4º octeto = 2^2 = 4
+
+Rede:          10.0.5.<span class="hl">80</span>
+Broadcast:     10.0.5.<span class="hl">83</span>   (80 + 4 − 1)
+1º válido:     10.0.5.81
+Último válido: 10.0.5.82
+Gateway:       10.0.5.82
+
+Próxima rede:  10.0.5.<span class="hl">84</span></div>
+        <div class="ok"><p>/30 é o menor prefixo útil: 2 hosts. Usado em links ponto-a-ponto (ex: entre dois roteadores).</p></div>
+      </div>
+
+      <div class="step-slide" data-s="6">
+        <h4>Resultado final — tabela completa</h4>
+        <table class="t">
+          <tr><th>VLAN</th><th>Prefixo</th><th>Rede</th><th>1º válido</th><th>Último válido</th><th>Broadcast</th></tr>
+          <tr><td>A (1000h)</td><td>/22</td><td>10.0.0.0</td><td>10.0.0.1</td><td>10.0.3.254</td><td>10.0.3.255</td></tr>
+          <tr><td>B (200h)</td><td>/24</td><td>10.0.4.0</td><td>10.0.4.1</td><td>10.0.4.254</td><td>10.0.4.255</td></tr>
+          <tr><td>C (50h)</td><td>/26</td><td>10.0.5.0</td><td>10.0.5.1</td><td>10.0.5.62</td><td>10.0.5.63</td></tr>
+          <tr><td>D (10h)</td><td>/28</td><td>10.0.5.64</td><td>10.0.5.65</td><td>10.0.5.78</td><td>10.0.5.79</td></tr>
+          <tr><td>E (2h)</td><td>/30</td><td>10.0.5.80</td><td>10.0.5.81</td><td>10.0.5.82</td><td>10.0.5.83</td></tr>
+        </table>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="nav-btn" onclick="prev('s3','p3',7)">← anterior</button>
+      <button class="nav-btn primary" onclick="next('s3','p3',7)">próximo passo →</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge bt">Dica crítica</span>
+    <h3>Quando o VLSM atravessa octetos</h3>
+    <div class="formula">Ex: VLAN A usa /22 começando em 10.0.0.0
+Bloco /22 no 3º octeto = 4
+
+Broadcast do /22: 3º octeto = 0 + 4 − 1 = <span class="hl">3</span>, 4º = <span class="hl">255</span>
+  → 10.0.3.255
+
+Próxima rede: 3º octeto + 1 = <span class="hl">4</span>, 4º = <span class="hl">0</span>
+  → 10.0.<span class="hl">4</span>.0</div>
+    <div class="warn"><p>Quando o bloco termina no 3º octeto, o 4º octeto do broadcast é sempre 255, e o 4º octeto da próxima rede é sempre 0.</p></div>
+    <button class="ask-btn" onclick="sendPrompt('Me dê mais 2 exercícios de VLSM para praticar, sem dar o gabarito de imediato')">Quero praticar mais VLSM ↗</button>
+  </div>
+</div>
+
+<!-- ===== CALCULADORA ===== -->
+<div id="calc" class="sec">
+  <div class="card">
+    <h3>Calculadora de sub-rede — veja o passo a passo em tempo real</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;align-items:flex-end;">
+      <div>
+        <label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:4px;">Endereço IP</label>
+        <input type="text" id="ip-in" value="189.251.75.89" style="width:180px;font-family:var(--font-mono);font-size:13px;" oninput="calcSubnet()">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:4px;">Prefixo</label>
+        <input type="number" id="pref-in" value="26" min="1" max="30" style="width:70px;font-family:var(--font-mono);font-size:13px;" oninput="calcSubnet()">
+      </div>
+    </div>
+    <div id="calc-out"></div>
+  </div>
+
+  <div class="card">
+    <h3>Calculadora VLSM — escolha de prefixo por hosts</h3>
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px;">
+      <div>
+        <label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:4px;">Hosts necessários</label>
+        <input type="number" id="hosts-in" value="1000" min="1" max="65534" style="width:130px;font-family:var(--font-mono);font-size:13px;" oninput="calcPref()">
+      </div>
+    </div>
+    <div id="pref-out"></div>
+  </div>
+</div>
+
+<script>
+function sw(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  event.target.classList.add('on');
+}
+
+function buildProg(pid,total,cur){
+  const el=document.getElementById(pid);
+  el.innerHTML='';
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='prog-dot'+(i===cur?' on':'');
+    const ii=i;
+    d.onclick=()=>goTo(pid.replace('p','s'),pid,total,ii);
+    el.appendChild(d);
+  }
+}
+
+function goTo(sid,pid,total,idx){
+  const slides=document.getElementById(sid).querySelectorAll('.step-slide');
+  slides.forEach(s=>s.classList.remove('on'));
+  slides[idx].classList.add('on');
+  buildProg(pid,total,idx);
+}
+
+function next(sid,pid,total){
+  const slides=document.getElementById(sid).querySelectorAll('.step-slide');
+  let cur=0;
+  slides.forEach((s,i)=>{if(s.classList.contains('on'))cur=i;});
+  const nxt=Math.min(cur+1,total-1);
+  slides.forEach(s=>s.classList.remove('on'));
+  slides[nxt].classList.add('on');
+  buildProg(pid,total,nxt);
+}
+
+function prev(sid,pid,total){
+  const slides=document.getElementById(sid).querySelectorAll('.step-slide');
+  let cur=0;
+  slides.forEach((s,i)=>{if(s.classList.contains('on'))cur=i;});
+  const prv=Math.max(cur-1,0);
+  slides.forEach(s=>s.classList.remove('on'));
+  slides[prv].classList.add('on');
+  buildProg(pid,total,prv);
+}
+
+buildProg('p1',4,0);
+buildProg('p2',4,0);
+buildProg('p3',7,0);
+
+function ipToNum(s){
+  const p=s.split('.').map(Number);
+  if(p.length!==4||p.some(x=>isNaN(x)||x<0||x>255))return null;
+  return (p[0]<<24)|(p[1]<<16)|(p[2]<<8)|p[3];
+}
+function numToIp(n){
+  return [((n>>>24)&255),((n>>>16)&255),((n>>>8)&255),(n&255)].join('.');
+}
+function maskDecimal(pref){
+  const m=(0xFFFFFFFF<<(32-pref))>>>0;
+  return numToIp(m);
+}
+
+function calcSubnet(){
+  const ipStr=document.getElementById('ip-in').value.trim();
+  const pref=parseInt(document.getElementById('pref-in').value);
+  const out=document.getElementById('calc-out');
+  if(isNaN(pref)||pref<1||pref>30){out.innerHTML='<p style="color:var(--color-text-secondary);font-size:13px;">Prefixo deve ser entre 1 e 30.</p>';return;}
+  const ipNum=ipToNum(ipStr);
+  if(ipNum===null){out.innerHTML='<p style="color:var(--color-text-secondary);font-size:13px;">IP inválido.</p>';return;}
+  const hostBits=32-pref;
+  const bloco=Math.pow(2,hostBits);
+  const mask=(0xFFFFFFFF<<hostBits)>>>0;
+  const netNum=ipNum&mask;
+  const bcNum=(netNum|~mask)>>>0;
+  const first=netNum+1;
+  const last=bcNum-1;
+  const nextNet=bcNum+1;
+  const hostCount=bloco-2;
+
+  const relevantOctet=pref<=8?1:pref<=16?2:pref<=24?3:4;
+  const blockInOctet=pref<=8?Math.pow(2,8-pref):pref<=16?Math.pow(2,16-pref):pref<=24?Math.pow(2,24-pref):Math.pow(2,32-pref);
+  const ipParts=ipStr.split('.').map(Number);
+  const octetVal=ipParts[relevantOctet-1];
+  const floorVal=Math.floor(octetVal/blockInOctet);
+
+  out.innerHTML=`
+    <div class="formula">Bits de host: 32 − ${pref} = <span class="hl">${hostBits}</span>
+Bloco no ${relevantOctet}º octeto: 2^${pref<=8?8-pref:pref<=16?16-pref:pref<=24?24-pref:32-pref} = <span class="hl">${Math.round(blockInOctet)}</span>
+
+${relevantOctet}º octeto do IP: <span class="hl">${octetVal}</span>
+${octetVal} ÷ ${Math.round(blockInOctet)} = ${(octetVal/blockInOctet).toFixed(4)} → floor = <span class="hl">${floorVal}</span>
+Rede = ${floorVal} × ${Math.round(blockInOctet)} = <span class="hl">${floorVal*Math.round(blockInOctet)}</span></div>
+    <div class="grid2">
+      <div class="mini"><p class="lbl">Endereço de rede</p><p class="val">${numToIp(netNum)}</p></div>
+      <div class="mini"><p class="lbl">1º IP válido</p><p class="val">${numToIp(first)}</p></div>
+      <div class="mini"><p class="lbl">Último IP válido</p><p class="val">${numToIp(last)}</p></div>
+      <div class="mini"><p class="lbl">Broadcast</p><p class="val">${numToIp(bcNum)}</p></div>
+      <div class="mini"><p class="lbl">Próxima rede</p><p class="val">${numToIp(nextNet)}/${pref}</p></div>
+      <div class="mini"><p class="lbl">Máscara</p><p class="val">${maskDecimal(pref)}</p></div>
+      <div class="mini"><p class="lbl">Hosts úteis</p><p class="val">${hostCount.toLocaleString()}</p></div>
+      <div class="mini"><p class="lbl">Tamanho do bloco</p><p class="val">${Math.round(bloco)}</p></div>
+    </div>`;
+}
+
+function calcPref(){
+  const h=parseInt(document.getElementById('hosts-in').value);
+  const out=document.getElementById('pref-out');
+  if(isNaN(h)||h<1){out.innerHTML='';return;}
+  let rows='';
+  for(let n=2;n<=16;n++){
+    const util=Math.pow(2,n)-2;
+    const pref=32-n;
+    const ok=util>=h;
+    rows+=`<tr style="${ok?'':'opacity:0.4'}"><td>${n}</td><td>${Math.round(Math.pow(2,n))}</td><td>${Math.round(util)}</td><td>/${pref}</td><td>${ok?(util===Math.ceil(util)&&util-h<util*0.3?'<span style="color:#085041;font-weight:500">✓ mínimo</span>':'<span style="color:#0C447C">✓ cabe</span>'):'✗ insuficiente'}</td></tr>`;
+  }
+  const bestN=Math.ceil(Math.log2(h+2));
+  out.innerHTML=`
+    <div class="ok" style="margin-bottom:10px;"><p>Para <strong>${h.toLocaleString()} hosts</strong>: use prefixo <strong>/${32-bestN}</strong> → ${Math.round(Math.pow(2,bestN)-2)} hosts úteis.</p></div>
+    <table class="t"><tr><th>bits host (n)</th><th>IPs totais</th><th>Hosts úteis</th><th>Prefixo</th><th>Status</th></tr>${rows}</table>`;
+}
+
+calcSubnet();
+calcPref();
+</script>

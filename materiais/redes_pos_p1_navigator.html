@@ -1,0 +1,419 @@
+
+<style>
+  .nav-btn { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 8px 14px; font-size: 13px; cursor: pointer; color: var(--color-text-primary); transition: background 0.15s; }
+  .nav-btn:hover { background: var(--color-background-secondary); }
+  .nav-btn.active { background: #E6F1FB; border-color: #378ADD; color: #0C447C; font-weight: 500; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); font-weight: 500; margin-bottom: 6px; }
+  .badge-blue { background: #E6F1FB; color: #0C447C; }
+  .badge-teal { background: #E1F5EE; color: #085041; }
+  .badge-amber { background: #FAEEDA; color: #633806; }
+  .badge-coral { background: #FAECE7; color: #4A1B0C; }
+  .badge-purple { background: #EEEDFE; color: #26215C; }
+  h3 { font-size: 16px; font-weight: 500; margin: 0 0 8px; color: var(--color-text-primary); }
+  h4 { font-size: 14px; font-weight: 500; margin: 12px 0 6px; color: var(--color-text-primary); }
+  p, li { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; margin: 0 0 6px; }
+  ul { margin: 0 0 8px; padding-left: 18px; }
+  code { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius: 4px; color: var(--color-text-primary); }
+  .diagram { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; margin: 8px 0; white-space: pre; overflow-x: auto; color: var(--color-text-primary); line-height: 1.6; }
+  .tip { background: #E1F5EE; border-left: 3px solid #1D9E75; padding: 8px 12px; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin: 8px 0; }
+  .tip p { color: #085041; font-size: 13px; margin: 0; }
+  .warn { background: #FAEEDA; border-left: 3px solid #EF9F27; padding: 8px 12px; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin: 8px 0; }
+  .warn p { color: #633806; font-size: 13px; margin: 0; }
+  table.neat { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+  table.neat th { background: var(--color-background-secondary); padding: 6px 10px; text-align: left; font-weight: 500; color: var(--color-text-primary); border-bottom: 0.5px solid var(--color-border-secondary); }
+  table.neat td { padding: 6px 10px; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .ask-btn { margin-top: 10px; font-size: 12px; cursor: pointer; background: transparent; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 5px 10px; color: var(--color-text-secondary); }
+  .ask-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<h2 class="sr-only">Material de estudo de Redes de Computadores — conteúdo pós-P1</h2>
+
+<div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; padding: 1rem 0 0;">
+  <button class="nav-btn active" onclick="show('icmp')">ICMP/DHCP/NAT/IPv6</button>
+  <button class="nav-btn" onclick="show('roteamento')">Roteamento</button>
+  <button class="nav-btn" onclick="show('enlace')">Camada de Enlace</button>
+  <button class="nav-btn" onclick="show('vlsm')">IP & VLSM</button>
+  <button class="nav-btn" onclick="show('gerencia')">Gerenciamento</button>
+  <button class="nav-btn" onclick="show('wifi')">Redes sem Fio</button>
+  <button class="nav-btn" onclick="show('seguranca')">Segurança</button>
+</div>
+
+<div id="icmp" class="section active">
+  <div class="card">
+    <span class="badge badge-blue">Camada de Internet</span>
+    <h3>ICMP — Internet Control Message Protocol</h3>
+    <p>Protocolo auxiliar do IP usado para relatar erros e diagnósticos. Não transporta dados de usuário.</p>
+    <h4>Mensagens principais</h4>
+    <table class="neat">
+      <tr><th>Tipo</th><th>Uso</th><th>Comando</th></tr>
+      <tr><td>Echo Request / Reply</td><td>Testar conectividade</td><td><code>ping</code></td></tr>
+      <tr><td>Time Exceeded</td><td>TTL chegou a zero</td><td><code>traceroute</code></td></tr>
+      <tr><td>Destination Unreachable</td><td>Host/porta inacessível</td><td>—</td></tr>
+      <tr><td>Redirect</td><td>Melhor rota disponível</td><td>—</td></tr>
+    </table>
+    <div class="tip"><p>O <code>ping</code> usa ICMP tipo 8 (request) e tipo 0 (reply). O TTL decrementado a zero gera tipo 11 (Time Exceeded).</p></div>
+  </div>
+  <div class="card">
+    <span class="badge badge-teal">Camada de Internet</span>
+    <h3>DHCP — Dynamic Host Configuration Protocol</h3>
+    <p>Atribui endereços IP automaticamente a clientes. Funciona sobre UDP (porta 67 servidor / 68 cliente).</p>
+    <h4>Processo DORA</h4>
+    <div class="diagram">Cliente         Servidor DHCP
+  |                    |
+  |--- Discover ------>|   (broadcast: "tem alguém aí?")
+  |<---- Offer --------|   (oferta de IP)
+  |--- Request ------->|   (aceito esse IP!)
+  |<--- Acknowledge ---|   (confirmado, use por X tempo)</div>
+    <h4>Parâmetros fornecidos</h4>
+    <ul>
+      <li>Endereço IP e máscara de sub-rede</li>
+      <li>Gateway padrão</li>
+      <li>Servidor DNS</li>
+      <li>Tempo de concessão (lease time)</li>
+    </ul>
+    <div class="warn"><p>DHCP usa broadcast no Discover e Request — por isso não passa por roteadores naturalmente. É necessário um <b>DHCP Relay Agent</b> para redes segmentadas.</p></div>
+  </div>
+  <div class="card">
+    <span class="badge badge-amber">Camada de Internet</span>
+    <h3>NAT — Network Address Translation</h3>
+    <p>Traduz endereços IP privados para públicos (e vice-versa) na borda da rede. Conserva o espaço de IPs públicos.</p>
+    <table class="neat">
+      <tr><th>Tipo</th><th>Descrição</th></tr>
+      <tr><td>NAT Estático</td><td>1 IP privado → 1 IP público (fixo)</td></tr>
+      <tr><td>NAT Dinâmico</td><td>Pool de IPs privados → pool de IPs públicos</td></tr>
+      <tr><td>PAT / NAT Overload</td><td>Muitos IPs privados → 1 IP público (usando portas)</td></tr>
+    </table>
+    <div class="diagram">Rede interna           Roteador NAT          Internet
+192.168.1.10:4523  →  200.100.50.1:4523  →  8.8.8.8
+192.168.1.11:8080  →  200.100.50.1:8080  →  1.1.1.1</div>
+    <div class="tip"><p>PAT (Port Address Translation) é o mais comum em residências: todos os dispositivos compartilham 1 IP público, diferenciados pela porta.</p></div>
+  </div>
+  <div class="card">
+    <span class="badge badge-purple">Camada de Internet</span>
+    <h3>IPv6 — Internet Protocol versão 6</h3>
+    <p>Substituto do IPv4. Endereços de 128 bits (16 bytes), notação hexadecimal separada por <code>:</code>.</p>
+    <h4>Formato</h4>
+    <div class="diagram">2001:0db8:85a3:0000:0000:8a2e:0370:7334
+     ↓ simplificado (omitir zeros à esquerda)
+2001:db8:85a3:0:0:8a2e:370:7334
+     ↓ comprimir grupos de zeros consecutivos com ::
+2001:db8:85a3::8a2e:370:7334</div>
+    <h4>Tipos de endereço IPv6</h4>
+    <table class="neat">
+      <tr><th>Tipo</th><th>Prefixo</th><th>Equivalente IPv4</th></tr>
+      <tr><td>Global Unicast</td><td><code>2000::/3</code></td><td>IP público</td></tr>
+      <tr><td>Link-local</td><td><code>fe80::/10</code></td><td>169.254.x.x</td></tr>
+      <tr><td>Loopback</td><td><code>::1</code></td><td>127.0.0.1</td></tr>
+      <tr><td>Multicast</td><td><code>ff00::/8</code></td><td>224.x.x.x</td></tr>
+    </table>
+    <div class="tip"><p>IPv6 não usa broadcast. Usa multicast e anycast. O NAT geralmente não é necessário em IPv6 (espaço de endereços suficiente).</p></div>
+    <button class="ask-btn" onclick="sendPrompt('Me dê exercícios práticos de simplificação de endereços IPv6')">Praticar simplificação IPv6 ↗</button>
+  </div>
+</div>
+
+<div id="roteamento" class="section">
+  <div class="card">
+    <span class="badge badge-blue">Camada de Rede</span>
+    <h3>Introdução ao Roteamento</h3>
+    <p>Roteamento é o processo de encaminhar pacotes entre redes diferentes. O roteador consulta sua <b>tabela de roteamento</b> para decidir por onde enviar cada pacote.</p>
+    <h4>Tabela de roteamento</h4>
+    <div class="diagram">Destino          Máscara          Gateway          Interface
+0.0.0.0          0.0.0.0          192.168.1.1      eth0    ← rota padrão
+192.168.1.0      255.255.255.0    0.0.0.0          eth0    ← rede direta
+10.0.0.0         255.0.0.0        192.168.1.254    eth0    ← rota estática</div>
+  </div>
+  <div class="card">
+    <h3>Roteamento Estático vs Dinâmico</h3>
+    <table class="neat">
+      <tr><th></th><th>Estático</th><th>Dinâmico</th></tr>
+      <tr><td>Configuração</td><td>Manual</td><td>Automática (protocolos)</td></tr>
+      <tr><td>Overhead</td><td>Nenhum</td><td>CPU/banda para troca de rotas</td></tr>
+      <tr><td>Escalabilidade</td><td>Baixa</td><td>Alta</td></tr>
+      <tr><td>Falha de link</td><td>Sem recuperação automática</td><td>Recalcula rota</td></tr>
+      <tr><td>Uso</td><td>Redes pequenas</td><td>Redes corporativas/ISPs</td></tr>
+    </table>
+    <h4>Principais protocolos dinâmicos</h4>
+    <table class="neat">
+      <tr><th>Protocolo</th><th>Tipo</th><th>Métrica</th></tr>
+      <tr><td>RIP</td><td>Vetor de distância</td><td>Número de saltos (max 15)</td></tr>
+      <tr><td>OSPF</td><td>Estado de enlace</td><td>Custo (largura de banda)</td></tr>
+      <tr><td>EIGRP</td><td>Híbrido (Cisco)</td><td>Banda, delay, confiabilidade</td></tr>
+      <tr><td>BGP</td><td>Vetor de caminho</td><td>Políticas (Internet)</td></tr>
+    </table>
+    <div class="tip"><p>Para a prova: foque em roteamento estático e a lógica da tabela de roteamento. OSPF e BGP são aprofundados em disciplinas avançadas.</p></div>
+    <button class="ask-btn" onclick="sendPrompt('Explique como configurar roteamento estático no PacketTracer com exemplos passo a passo')">Ver configuração no PacketTracer ↗</button>
+  </div>
+</div>
+
+<div id="enlace" class="section">
+  <div class="card">
+    <span class="badge badge-teal">Camada de Enlace</span>
+    <h3>Protocolos de Acesso Múltiplo ao Canal</h3>
+    <p>Quando múltiplos dispositivos compartilham o mesmo meio físico, é necessário controlar quem transmite.</p>
+    <table class="neat">
+      <tr><th>Categoria</th><th>Protocolo</th><th>Como funciona</th></tr>
+      <tr><td>Particionamento</td><td>TDMA, FDMA</td><td>Divide tempo ou frequência</td></tr>
+      <tr><td>Acesso aleatório</td><td>CSMA/CD, CSMA/CA</td><td>Detecta/evita colisão</td></tr>
+      <tr><td>Revezamento</td><td>Token Ring, Polling</td><td>Passa o "direito" de transmitir</td></tr>
+    </table>
+    <h4>CSMA/CD (Ethernet com fio)</h4>
+    <ul>
+      <li>Carrier Sense: escuta o meio antes de transmitir</li>
+      <li>Multiple Access: múltiplos dispositivos no mesmo meio</li>
+      <li>Collision Detection: detecta colisão e para, espera tempo aleatório (backoff exponencial)</li>
+    </ul>
+    <h4>CSMA/CA (Wi-Fi)</h4>
+    <ul>
+      <li>Collision Avoidance: não detecta, <i>evita</i> colisões (no ar é difícil detectar)</li>
+      <li>Usa RTS/CTS opcionalmente para reservar o meio</li>
+    </ul>
+  </div>
+  <div class="card">
+    <span class="badge badge-coral">Camada de Enlace</span>
+    <h3>Protocolo Ethernet</h3>
+    <p>Padrão dominante em redes cabeadas (IEEE 802.3). Opera na camada de enlace.</p>
+    <h4>Frame Ethernet</h4>
+    <div class="diagram">| Preâmbulo | MAC Dest | MAC Orig | Tipo/Tam | Dados | FCS |
+|   8 bytes  |  6 bytes  |  6 bytes  |  2 bytes  | 46-1500| 4 bytes|</div>
+    <h4>Endereço MAC</h4>
+    <ul>
+      <li>48 bits (6 bytes), notação hexadecimal: <code>AA:BB:CC:DD:EE:FF</code></li>
+      <li>Primeiros 3 bytes: OUI (fabricante) | Últimos 3 bytes: serial</li>
+      <li>Endereço de broadcast: <code>FF:FF:FF:FF:FF:FF</code></li>
+      <li>Gravado na NIC (pode ser alterado por software)</li>
+    </ul>
+    <div class="tip"><p>MAC é usado na camada 2 (dentro da mesma rede). IP é usado na camada 3 (entre redes). O ARP faz a ponte entre os dois.</p></div>
+  </div>
+  <div class="card">
+    <span class="badge badge-purple">Camada de Enlace</span>
+    <h3>ARP — Address Resolution Protocol</h3>
+    <p>Descobre o endereço MAC associado a um endereço IP conhecido na mesma rede local.</p>
+    <div class="diagram">Situação: A (192.168.1.10) quer falar com B (192.168.1.20)
+A não sabe o MAC de B.
+
+A → Broadcast:  "Quem tem o IP 192.168.1.20? Me diga seu MAC!"
+B → Unicast p/ A: "Sou eu! Meu MAC é AA:BB:CC:11:22:33"
+
+A armazena o par (IP → MAC) em seu cache ARP.</div>
+    <h4>Comandos úteis</h4>
+    <ul>
+      <li><code>arp -a</code> — exibe a tabela ARP no Windows/Linux</li>
+      <li><code>arp -d</code> — limpa o cache ARP</li>
+    </ul>
+    <div class="warn"><p>ARP Spoofing: atacante responde falsamente ao ARP para interceptar tráfego (ataque man-in-the-middle). Importante em Segurança!</p></div>
+    <button class="ask-btn" onclick="sendPrompt('Explique o processo completo de comunicação entre dois PCs em redes diferentes, mostrando onde ARP e roteamento atuam')">Ver fluxo completo ARP + roteamento ↗</button>
+  </div>
+</div>
+
+<div id="vlsm" class="section">
+  <div class="card">
+    <span class="badge badge-amber">Endereçamento IP</span>
+    <h3>Sub-redes e CIDR</h3>
+    <p>Sub-rede (subnet) divide uma rede maior em redes menores. CIDR usa notação de prefixo: <code>/24</code> = 24 bits de rede.</p>
+    <h4>Fórmulas essenciais</h4>
+    <table class="neat">
+      <tr><th>O que calcular</th><th>Fórmula</th><th>Exemplo (/26)</th></tr>
+      <tr><td>Bits de host</td><td>32 − prefixo</td><td>32 − 26 = 6 bits</td></tr>
+      <tr><td>IPs totais</td><td>2^bits_host</td><td>2^6 = 64</td></tr>
+      <tr><td>Hosts utilizáveis</td><td>2^bits_host − 2</td><td>64 − 2 = 62</td></tr>
+      <tr><td>Endereço de rede</td><td>Primeiro IP</td><td>x.x.x.0</td></tr>
+      <tr><td>Broadcast</td><td>Último IP</td><td>x.x.x.63</td></tr>
+      <tr><td>Próxima rede</td><td>Broadcast + 1</td><td>x.x.x.64</td></tr>
+    </table>
+    <div class="diagram">Rede: 192.168.1.0/26
+  Endereço de rede:  192.168.1.0
+  Primeiro host:     192.168.1.1
+  Último host:       192.168.1.62
+  Broadcast:         192.168.1.63
+  Próxima rede:      192.168.1.64</div>
+  </div>
+  <div class="card">
+    <h3>VLSM — Variable Length Subnet Mask</h3>
+    <p>Permite usar máscaras de tamanho variável para otimizar o uso de IPs. Fundamental para o exame!</p>
+    <h4>Estratégia VLSM</h4>
+    <ul>
+      <li>Ordene as sub-redes da maior para a menor (número de hosts)</li>
+      <li>Aloque a maior primeiro, depois a próxima rede disponível</li>
+      <li>Escolha o menor prefixo que acomoda os hosts necessários</li>
+    </ul>
+    <h4>Exemplo prático</h4>
+    <div class="diagram">Rede base: 10.0.0.0/24
+Requisitos: RH(50 hosts), TI(25 hosts), Gerência(10 hosts), Link(2 hosts)
+
+RH (50 hosts) → /26 (62 hosts úteis) → 10.0.0.0/26
+  Faixa: 10.0.0.1 – 10.0.0.62  (BC: 10.0.0.63)
+
+TI (25 hosts) → /27 (30 hosts úteis) → 10.0.0.64/27
+  Faixa: 10.0.0.65 – 10.0.0.94  (BC: 10.0.0.95)
+
+Gerência (10h) → /28 (14 hosts úteis) → 10.0.0.96/28
+  Faixa: 10.0.0.97 – 10.0.0.110  (BC: 10.0.0.111)
+
+Link (2 hosts) → /30 (2 hosts úteis) → 10.0.0.112/30
+  Faixa: 10.0.0.113 – 10.0.0.114  (BC: 10.0.0.115)</div>
+    <h4>Tabela de referência rápida</h4>
+    <table class="neat">
+      <tr><th>Prefixo</th><th>Hosts úteis</th><th>IPs totais</th></tr>
+      <tr><td>/24</td><td>254</td><td>256</td></tr>
+      <tr><td>/25</td><td>126</td><td>128</td></tr>
+      <tr><td>/26</td><td>62</td><td>64</td></tr>
+      <tr><td>/27</td><td>30</td><td>32</td></tr>
+      <tr><td>/28</td><td>14</td><td>16</td></tr>
+      <tr><td>/29</td><td>6</td><td>8</td></tr>
+      <tr><td>/30</td><td>2</td><td>4</td></tr>
+    </table>
+    <button class="ask-btn" onclick="sendPrompt('Me dê 3 exercícios de VLSM para praticar, com correção detalhada')">Praticar VLSM com exercícios ↗</button>
+  </div>
+</div>
+
+<div id="gerencia" class="section">
+  <div class="card">
+    <span class="badge badge-blue">Gerenciamento</span>
+    <h3>Gerenciamento de Redes</h3>
+    <p>Conjunto de atividades para monitorar, controlar e manter a rede funcionando corretamente.</p>
+    <h4>Modelo FCAPS (ISO)</h4>
+    <table class="neat">
+      <tr><th>Letra</th><th>Área</th><th>O que faz</th></tr>
+      <tr><td><b>F</b></td><td>Fault (Falha)</td><td>Detectar, isolar e corrigir falhas</td></tr>
+      <tr><td><b>C</b></td><td>Configuration (Config.)</td><td>Controlar configurações dos dispositivos</td></tr>
+      <tr><td><b>A</b></td><td>Accounting (Contabilidade)</td><td>Medir uso de recursos por usuário</td></tr>
+      <tr><td><b>P</b></td><td>Performance (Desempenho)</td><td>Monitorar latência, throughput, etc.</td></tr>
+      <tr><td><b>S</b></td><td>Security (Segurança)</td><td>Controlar acessos e políticas de segurança</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>SNMP — Simple Network Management Protocol</h3>
+    <p>Protocolo padrão para gerenciamento de dispositivos em redes IP. Usa UDP porta 161 (agente) e 162 (trap).</p>
+    <h4>Componentes</h4>
+    <ul>
+      <li><b>NMS</b> (Network Management Station): o "gerente" — consulta e controla</li>
+      <li><b>Agente</b>: software no dispositivo gerenciado (roteador, switch, servidor)</li>
+      <li><b>MIB</b> (Management Information Base): banco de dados de variáveis gerenciadas</li>
+    </ul>
+    <h4>Operações SNMP</h4>
+    <table class="neat">
+      <tr><th>Operação</th><th>Quem inicia</th><th>O que faz</th></tr>
+      <tr><td>GET</td><td>NMS → Agente</td><td>Lê um valor da MIB</td></tr>
+      <tr><td>SET</td><td>NMS → Agente</td><td>Altera um valor na MIB</td></tr>
+      <tr><td>TRAP</td><td>Agente → NMS</td><td>Notifica evento (não solicitado)</td></tr>
+      <tr><td>GETBULK</td><td>NMS → Agente</td><td>Lê múltiplos valores (SNMPv2+)</td></tr>
+    </table>
+    <div class="tip"><p>SNMPv3 adicionou autenticação e criptografia. Versões anteriores (v1, v2c) usam apenas "community strings" (senhas em texto plano — inseguro).</p></div>
+  </div>
+  <div class="card">
+    <h3>Outros protocolos e ferramentas de gerência</h3>
+    <table class="neat">
+      <tr><th>Ferramenta/Protocolo</th><th>Uso</th></tr>
+      <tr><td>Syslog</td><td>Centralização de logs de dispositivos</td></tr>
+      <tr><td>NetFlow/IPFIX</td><td>Análise de tráfego e flows</td></tr>
+      <tr><td>NTP</td><td>Sincronização de horário entre dispositivos</td></tr>
+      <tr><td>SSH</td><td>Acesso remoto seguro a dispositivos</td></tr>
+      <tr><td>RMON</td><td>Monitoramento remoto de rede (extensão do SNMP)</td></tr>
+    </table>
+  </div>
+</div>
+
+<div id="wifi" class="section">
+  <div class="card">
+    <span class="badge badge-teal">Redes sem Fio</span>
+    <h3>Padrões IEEE 802.11 (Wi-Fi)</h3>
+    <table class="neat">
+      <tr><th>Padrão</th><th>Nome</th><th>Frequência</th><th>Velocidade máx.</th></tr>
+      <tr><td>802.11b</td><td>Wi-Fi 1</td><td>2,4 GHz</td><td>11 Mbps</td></tr>
+      <tr><td>802.11g</td><td>Wi-Fi 3</td><td>2,4 GHz</td><td>54 Mbps</td></tr>
+      <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2,4 / 5 GHz</td><td>600 Mbps</td></tr>
+      <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>3,5 Gbps</td></tr>
+      <tr><td>802.11ax</td><td>Wi-Fi 6</td><td>2,4 / 5 / 6 GHz</td><td>9,6 Gbps</td></tr>
+    </table>
+    <div class="warn"><p>2,4 GHz: maior alcance, mais interferência (3 canais não sobrepostos: 1, 6, 11). 5 GHz: menor alcance, menos interferência, mais canais.</p></div>
+  </div>
+  <div class="card">
+    <h3>Arquitetura de Redes sem Fio</h3>
+    <table class="neat">
+      <tr><th>Modo</th><th>Descrição</th></tr>
+      <tr><td>Infraestrutura (BSS)</td><td>Clientes se conectam via AP (Access Point) — mais comum</td></tr>
+      <tr><td>Ad hoc (IBSS)</td><td>Dispositivos se conectam diretamente entre si</td></tr>
+      <tr><td>ESS</td><td>Múltiplos APs com o mesmo SSID — roaming</td></tr>
+    </table>
+    <h4>Componentes</h4>
+    <ul>
+      <li><b>AP</b> (Access Point): ponto de acesso sem fio</li>
+      <li><b>SSID</b>: nome da rede Wi-Fi</li>
+      <li><b>BSS</b>: Basic Service Set — uma célula (1 AP + seus clientes)</li>
+      <li><b>ESS</b>: Extended Service Set — vários APs conectados ao mesmo DS</li>
+      <li><b>DS</b>: Distribution System — infraestrutura com fio conectando os APs</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Segurança em Wi-Fi</h3>
+    <table class="neat">
+      <tr><th>Protocolo</th><th>Criptografia</th><th>Status</th></tr>
+      <tr><td>WEP</td><td>RC4 (40/104 bits)</td><td>⚠ Obsoleto / inseguro</td></tr>
+      <tr><td>WPA</td><td>TKIP (RC4 melhorado)</td><td>⚠ Deprecated</td></tr>
+      <tr><td>WPA2</td><td>AES-CCMP (128 bits)</td><td>✓ Amplamente usado</td></tr>
+      <tr><td>WPA3</td><td>AES-GCMP (192/256 bits)</td><td>✓ Atual / recomendado</td></tr>
+    </table>
+    <div class="tip"><p>WPA2 Personal usa senha compartilhada (PSK). WPA2 Enterprise usa servidor RADIUS para autenticação individual por usuário.</p></div>
+    <button class="ask-btn" onclick="sendPrompt('Explique como configurar uma rede Wi-Fi segura com WPA2 no PacketTracer')">Ver configuração Wi-Fi no PacketTracer ↗</button>
+  </div>
+</div>
+
+<div id="seguranca" class="section">
+  <div class="card">
+    <span class="badge badge-coral">Segurança</span>
+    <h3>Princípios da Segurança da Informação</h3>
+    <h4>Tríade CIA</h4>
+    <table class="neat">
+      <tr><th>Princípio</th><th>Descrição</th><th>Exemplo de ameaça</th></tr>
+      <tr><td>Confidencialidade</td><td>Só autorizados acessam</td><td>Interceptação de dados</td></tr>
+      <tr><td>Integridade</td><td>Dados não foram alterados</td><td>Man-in-the-middle</td></tr>
+      <tr><td>Disponibilidade</td><td>Serviço acessível quando precisar</td><td>Ataque DDoS</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Principais Ataques em Redes</h3>
+    <table class="neat">
+      <tr><th>Ataque</th><th>Como funciona</th><th>Camada</th></tr>
+      <tr><td>DoS / DDoS</td><td>Sobrecarregar o alvo com requisições</td><td>3/4/7</td></tr>
+      <tr><td>Man-in-the-Middle</td><td>Interceptar comunicação entre dois hosts</td><td>2/3</td></tr>
+      <tr><td>ARP Spoofing</td><td>Envenenar tabela ARP para redirecionar tráfego</td><td>2</td></tr>
+      <tr><td>DNS Spoofing</td><td>Retornar IP falso em respostas DNS</td><td>7</td></tr>
+      <tr><td>Port Scanning</td><td>Descobrir portas abertas no alvo</td><td>4</td></tr>
+      <tr><td>Phishing</td><td>Enganar usuário com site/e-mail falso</td><td>7</td></tr>
+      <tr><td>Sniffing</td><td>Capturar pacotes na rede (Wireshark)</td><td>2</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Mecanismos de Defesa</h3>
+    <table class="neat">
+      <tr><th>Mecanismo</th><th>Função</th></tr>
+      <tr><td>Firewall</td><td>Filtra tráfego por regras (ACLs)</td></tr>
+      <tr><td>IDS/IPS</td><td>Detecta/bloqueia intrusões</td></tr>
+      <tr><td>VPN</td><td>Túnel criptografado sobre rede pública</td></tr>
+      <tr><td>TLS/SSL</td><td>Criptografia na camada de transporte (HTTPS)</td></tr>
+      <tr><td>ACL</td><td>Controle de acesso baseado em IP/porta</td></tr>
+      <tr><td>VLAN</td><td>Segmentação lógica para isolar tráfego</td></tr>
+      <tr><td>802.1X</td><td>Autenticação de porta em redes cabeadas/Wi-Fi</td></tr>
+    </table>
+    <h4>Tipos de Firewall</h4>
+    <ul>
+      <li><b>Packet Filter</b>: analisa cabeçalhos IP/TCP (stateless)</li>
+      <li><b>Stateful Inspection</b>: rastreia o estado da conexão</li>
+      <li><b>Application Layer (WAF)</b>: inspeciona conteúdo da aplicação</li>
+    </ul>
+    <div class="tip"><p>Para a prova: entenda a diferença entre IDS (detecta e alerta) e IPS (detecta e bloqueia automaticamente), e como VPNs usam IPSec ou TLS.</p></div>
+    <button class="ask-btn" onclick="sendPrompt('Explique como funciona uma VPN com IPSec, incluindo os modos túnel e transporte')">Aprofundar em VPN / IPSec ↗</button>
+  </div>
+</div>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>

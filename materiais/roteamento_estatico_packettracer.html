@@ -1,0 +1,516 @@
+
+<style>
+  *{box-sizing:border-box;}
+  h2.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+  .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px;}
+  h3{font-size:15px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary);}
+  h4{font-size:13px;font-weight:500;margin:10px 0 5px;color:var(--color-text-primary);}
+  p,li{font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 4px;}
+  ul{margin:4px 0 8px;padding-left:18px;}
+  .cmd{font-family:var(--font-mono);font-size:12px;background:#1e2228;color:#a8d8a8;border-radius:var(--border-radius-md);padding:10px 14px;margin:8px 0;line-height:1.8;white-space:pre-wrap;overflow-x:auto;}
+  .cmd .c{color:#6a9bd4;}
+  .cmd .p{color:#e0c472;}
+  .cmd .ok{color:#6dbf6d;}
+  .cmd .dim{color:#606878;}
+  .ok-box{background:#E1F5EE;border-left:3px solid #1D9E75;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:7px 12px;margin:8px 0;}
+  .ok-box p{color:#085041;font-size:13px;margin:0;}
+  .warn-box{background:#FAEEDA;border-left:3px solid #EF9F27;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:7px 12px;margin:8px 0;}
+  .warn-box p{color:#633806;font-size:13px;margin:0;}
+  .err-box{background:#FCEBEB;border-left:3px solid #E24B4A;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:7px 12px;margin:8px 0;}
+  .err-box p{color:#501313;font-size:13px;margin:0;}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500;margin:0 4px 6px 0;}
+  .bb{background:#E6F1FB;color:#0C447C;}
+  .bt{background:#E1F5EE;color:#085041;}
+  .ba{background:#FAEEDA;color:#633806;}
+  .bp{background:#EEEDFE;color:#26215C;}
+  .br{background:#FCEBEB;color:#501313;}
+  .steps-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .nav-btn{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 14px;font-size:12px;cursor:pointer;color:var(--color-text-secondary);}
+  .nav-btn:hover{background:var(--color-background-primary);}
+  .nav-btn.go{background:#378ADD;color:#fff;border-color:#378ADD;}
+  .nav-btn.go:hover{background:#185FA5;}
+  .slide{display:none;}.slide.on{display:block;}
+  .prog{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--color-border-secondary);cursor:pointer;flex-shrink:0;}
+  .dot.on{background:#378ADD;}
+  .step-row{display:flex;gap:10px;margin:7px 0;align-items:flex-start;}
+  .num{width:22px;height:22px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px;}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding-top:1rem;}
+  .tab{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 14px;font-size:12px;cursor:pointer;color:var(--color-text-primary);}
+  .tab:hover{background:var(--color-background-secondary);}
+  .tab.on{background:#E6F1FB;border-color:#378ADD;color:#0C447C;font-weight:500;}
+  .sec{display:none;}.sec.on{display:block;}
+  table.t{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;}
+  table.t th{background:var(--color-background-secondary);padding:5px 8px;text-align:left;font-weight:500;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-secondary);}
+  table.t td{padding:5px 8px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);font-family:var(--font-mono);font-size:11px;}
+  .highlight-row td{background:#E6F1FB;color:#0C447C !important;}
+  .ask-btn{font-size:12px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:5px 10px;color:var(--color-text-secondary);margin-top:8px;}
+  .ask-btn:hover{background:var(--color-background-secondary);}
+  @keyframes pulse-line{0%,100%{opacity:0.3}50%{opacity:1}}
+  @keyframes flow{to{stroke-dashoffset:-20}}
+</style>
+
+<h2 class="sr-only">Tutorial de roteamento estático no Packet Tracer com topologia interativa</h2>
+
+<div class="tabs">
+  <button class="tab on" onclick="sw('topo')">Topologia</button>
+  <button class="tab" onclick="sw('rt1')">Configurar RT1</button>
+  <button class="tab" onclick="sw('rt2')">Configurar RT2</button>
+  <button class="tab" onclick="sw('rt3')">Configurar RT3</button>
+  <button class="tab" onclick="sw('verify')">Verificar e testar</button>
+  <button class="tab" onclick="sw('default')">Rota padrão</button>
+</div>
+
+<!-- ======= TOPOLOGIA ======= -->
+<div id="topo" class="sec on">
+<div class="card">
+  <span class="badge bb">Cenário</span>
+  <h3>Topologia usada em todo o tutorial</h3>
+  <p>Três roteadores conectados em série. Cada roteador tem uma LAN local e interfaces WAN entre si. O objetivo é fazer o PC1 pingar o PC3 passando pelos três roteadores.</p>
+</div>
+
+<svg width="100%" viewBox="0 0 680 370">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- LAN labels top -->
+  <text class="th" x="100" y="28" text-anchor="middle" dominant-baseline="central">LAN 1</text>
+  <text class="ts" x="100" y="46" text-anchor="middle" dominant-baseline="central">192.168.1.0/24</text>
+  <text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central">LAN 2</text>
+  <text class="ts" x="340" y="46" text-anchor="middle" dominant-baseline="central">192.168.2.0/24</text>
+  <text class="th" x="580" y="28" text-anchor="middle" dominant-baseline="central">LAN 3</text>
+  <text class="ts" x="580" y="46" text-anchor="middle" dominant-baseline="central">192.168.3.0/24</text>
+
+  <!-- PC 1 -->
+  <g class="c-gray">
+    <rect x="44" y="70" width="72" height="40" rx="8" stroke-width="0.5"/>
+    <text class="th" x="80" y="90" text-anchor="middle" dominant-baseline="central">PC1</text>
+  </g>
+  <text class="ts" x="80" y="120" text-anchor="middle" dominant-baseline="central">.10</text>
+
+  <!-- PC 3 -->
+  <g class="c-gray">
+    <rect x="524" y="70" width="72" height="40" rx="8" stroke-width="0.5"/>
+    <text class="th" x="560" y="90" text-anchor="middle" dominant-baseline="central">PC3</text>
+  </g>
+  <text class="ts" x="560" y="120" text-anchor="middle" dominant-baseline="central">.10</text>
+
+  <!-- RT1 -->
+  <g class="c-blue">
+    <rect x="44" y="165" width="112" height="50" rx="10" stroke-width="0.5"/>
+    <text class="th" x="100" y="187" text-anchor="middle" dominant-baseline="central">RT1</text>
+    <text class="ts" x="100" y="203" text-anchor="middle" dominant-baseline="central">Roteador 1</text>
+  </g>
+
+  <!-- RT2 -->
+  <g class="c-blue">
+    <rect x="284" y="165" width="112" height="50" rx="10" stroke-width="0.5"/>
+    <text class="th" x="340" y="187" text-anchor="middle" dominant-baseline="central">RT2</text>
+    <text class="ts" x="340" y="203" text-anchor="middle" dominant-baseline="central">Roteador 2</text>
+  </g>
+
+  <!-- RT3 -->
+  <g class="c-blue">
+    <rect x="524" y="165" width="112" height="50" rx="10" stroke-width="0.5"/>
+    <text class="th" x="580" y="187" text-anchor="middle" dominant-baseline="central">RT3</text>
+    <text class="ts" x="580" y="203" text-anchor="middle" dominant-baseline="central">Roteador 3</text>
+  </g>
+
+  <!-- PC1 -> RT1 (LAN) -->
+  <line x1="80" y1="110" x2="80" y2="163" stroke="#888780" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+  <!-- PC3 -> RT3 (LAN) -->
+  <line x1="560" y1="110" x2="560" y2="163" stroke="#888780" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+  <!-- RT1 <-> RT2 link (WAN 10.0.12.0/30) -->
+  <line id="link12" x1="158" y1="190" x2="282" y2="190" stroke="#378ADD" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+  <line x1="282" y1="196" x2="158" y2="196" stroke="#378ADD" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+
+  <!-- RT2 <-> RT3 link (WAN 10.0.23.0/30) -->
+  <line id="link23" x1="398" y1="190" x2="522" y2="190" stroke="#378ADD" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+  <line x1="522" y1="196" x2="398" y2="196" stroke="#378ADD" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+
+  <!-- WAN link labels -->
+  <rect x="178" y="177" width="106" height="28" rx="4" fill="var(--color-background-primary)" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+  <text class="ts" x="231" y="187" text-anchor="middle" dominant-baseline="central">10.0.12.0/30</text>
+  <text class="ts" x="231" y="199" text-anchor="middle" dominant-baseline="central">.1 ←→ .2</text>
+
+  <rect x="416" y="177" width="106" height="28" rx="4" fill="var(--color-background-primary)" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+  <text class="ts" x="469" y="187" text-anchor="middle" dominant-baseline="central">10.0.23.0/30</text>
+  <text class="ts" x="469" y="199" text-anchor="middle" dominant-baseline="central">.1 ←→ .2</text>
+
+  <!-- Interface labels RT1 -->
+  <text class="ts" x="64" y="254" dominant-baseline="central">Gig0/0: 192.168.1.1/24</text>
+  <text class="ts" x="64" y="270" dominant-baseline="central">Gig0/1: 10.0.12.1/30</text>
+
+  <!-- Interface labels RT2 -->
+  <text class="ts" x="220" y="254" dominant-baseline="central">Gig0/0: 192.168.2.1/24</text>
+  <text class="ts" x="220" y="270" dominant-baseline="central">Gig0/1: 10.0.12.2/30</text>
+  <text class="ts" x="220" y="286" dominant-baseline="central">Gig0/2: 10.0.23.1/30</text>
+
+  <!-- Interface labels RT3 -->
+  <text class="ts" x="462" y="254" dominant-baseline="central">Gig0/0: 192.168.3.1/24</text>
+  <text class="ts" x="462" y="270" dominant-baseline="central">Gig0/1: 10.0.23.2/30</text>
+
+  <!-- PC IPs -->
+  <text class="ts" x="46" y="320" dominant-baseline="central">PC1: 192.168.1.10</text>
+  <text class="ts" x="46" y="336" dominant-baseline="central">GW: 192.168.1.1</text>
+  <text class="ts" x="480" y="320" dominant-baseline="central">PC3: 192.168.3.10</text>
+  <text class="ts" x="480" y="336" dominant-baseline="central">GW: 192.168.3.1</text>
+</svg>
+
+<div class="card" style="margin-top:0">
+  <h4>Endereçamento completo</h4>
+  <table class="t">
+    <tr><th>Dispositivo</th><th>Interface</th><th>IP / Máscara</th><th>Propósito</th></tr>
+    <tr><td>RT1</td><td>Gig0/0</td><td>192.168.1.1/24</td><td>Gateway LAN 1</td></tr>
+    <tr><td>RT1</td><td>Gig0/1</td><td>10.0.12.1/30</td><td>Link WAN → RT2</td></tr>
+    <tr><td>RT2</td><td>Gig0/0</td><td>192.168.2.1/24</td><td>Gateway LAN 2</td></tr>
+    <tr><td>RT2</td><td>Gig0/1</td><td>10.0.12.2/30</td><td>Link WAN ← RT1</td></tr>
+    <tr><td>RT2</td><td>Gig0/2</td><td>10.0.23.1/30</td><td>Link WAN → RT3</td></tr>
+    <tr><td>RT3</td><td>Gig0/0</td><td>192.168.3.1/24</td><td>Gateway LAN 3</td></tr>
+    <tr><td>RT3</td><td>Gig0/1</td><td>10.0.23.2/30</td><td>Link WAN ← RT2</td></tr>
+    <tr><td>PC1</td><td>NIC</td><td>192.168.1.10/24</td><td>GW: 192.168.1.1</td></tr>
+    <tr><td>PC3</td><td>NIC</td><td>192.168.3.10/24</td><td>GW: 192.168.3.1</td></tr>
+  </table>
+</div>
+</div>
+
+<!-- ======= RT1 ======= -->
+<div id="rt1" class="sec">
+<div class="card">
+  <span class="badge bb">RT1</span><span class="badge ba">Passo a passo</span>
+  <h3>Configurando as interfaces e rotas estáticas do RT1</h3>
+
+  <div id="prog-rt1" class="prog"></div>
+
+  <div id="slides-rt1">
+
+  <div class="slide on">
+    <h4>Passo 1 — entrar no modo de configuração</h4>
+    <p>No Packet Tracer, clique no roteador RT1 → aba CLI. Você verá o prompt <code>Router></code>.</p>
+    <div class="cmd"><span class="dim">Router></span> <span class="c">enable</span>
+<span class="dim">Router#</span> <span class="c">configure terminal</span>
+<span class="dim">Router(config)#</span> <span class="c">hostname</span> <span class="p">RT1</span>
+<span class="dim">RT1(config)#</span></div>
+    <div class="ok-box"><p>Modo <code>enable</code> = modo privilegiado (acesso total). Modo <code>configure terminal</code> = onde você faz todas as configurações.</p></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 2 — configurar a interface LAN (Gig0/0)</h4>
+    <p>Esta interface conecta o RT1 à rede local 192.168.1.0/24.</p>
+    <div class="cmd"><span class="dim">RT1(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/0</span>
+<span class="dim">RT1(config-if)#</span> <span class="c">ip address</span> <span class="p">192.168.1.1 255.255.255.0</span>
+<span class="dim">RT1(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT1(config-if)#</span> <span class="ok">%LINK-5-CHANGED: Interface GigabitEthernet0/0, changed state to up</span>
+<span class="dim">RT1(config-if)#</span> <span class="c">exit</span></div>
+    <div class="warn-box"><p><code>no shutdown</code> é obrigatório — interfaces Cisco vêm desligadas por padrão. Sem esse comando a interface fica "down" mesmo com cabo conectado.</p></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 3 — configurar a interface WAN (Gig0/1)</h4>
+    <p>Esta interface conecta o RT1 ao RT2 pelo link 10.0.12.0/30.</p>
+    <div class="cmd"><span class="dim">RT1(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/1</span>
+<span class="dim">RT1(config-if)#</span> <span class="c">ip address</span> <span class="p">10.0.12.1 255.255.255.252</span>
+<span class="dim">RT1(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT1(config-if)#</span> <span class="c">exit</span></div>
+    <div class="ok-box"><p>255.255.255.252 é a máscara do /30. Ela dá apenas 2 hosts úteis — ideal para links ponto-a-ponto entre roteadores.</p></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 4 — adicionar as rotas estáticas</h4>
+    <p>RT1 precisa saber como chegar nas redes que ele não conhece diretamente: LAN 2 (192.168.2.0) e LAN 3 (192.168.3.0).</p>
+    <div class="cmd"><span class="dim">RT1(config)#</span> <span class="c">ip route</span> <span class="p">192.168.2.0 255.255.255.0 10.0.12.2</span>
+<span class="dim">RT1(config)#</span> <span class="c">ip route</span> <span class="p">192.168.3.0 255.255.255.0 10.0.12.2</span></div>
+    <div class="ok-box"><p>Sintaxe: <code>ip route [rede-destino] [máscara] [próximo-salto]</code>. O próximo salto de RT1 para qualquer destino além de RT2 é sempre <code>10.0.12.2</code> (a outra ponta do link).</p></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 5 — salvar a configuração</h4>
+    <div class="cmd"><span class="dim">RT1(config)#</span> <span class="c">end</span>
+<span class="dim">RT1#</span> <span class="c">write memory</span>
+<span class="ok">Building configuration...
+[OK]</span></div>
+    <div class="warn-box"><p>Sem <code>write memory</code> (ou <code>copy run start</code>), a configuração é perdida quando o Packet Tracer fecha o arquivo. Sempre salve!</p></div>
+  </div>
+
+  </div>
+  <div class="steps-nav">
+    <button class="nav-btn" onclick="prev('slides-rt1','prog-rt1',5)">← anterior</button>
+    <button class="nav-btn go" onclick="next('slides-rt1','prog-rt1',5)">próximo →</button>
+  </div>
+</div>
+</div>
+
+<!-- ======= RT2 ======= -->
+<div id="rt2" class="sec">
+<div class="card">
+  <span class="badge bb">RT2</span><span class="badge bp">Roteador central</span>
+  <h3>RT2 — o mais trabalhoso: 3 interfaces e 2 rotas</h3>
+
+  <div id="prog-rt2" class="prog"></div>
+  <div id="slides-rt2">
+
+  <div class="slide on">
+    <h4>Passo 1 — entrar e nomear</h4>
+    <div class="cmd"><span class="dim">Router></span> <span class="c">enable</span>
+<span class="dim">Router#</span> <span class="c">configure terminal</span>
+<span class="dim">Router(config)#</span> <span class="c">hostname</span> <span class="p">RT2</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 2 — interface LAN (Gig0/0)</h4>
+    <div class="cmd"><span class="dim">RT2(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/0</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">ip address</span> <span class="p">192.168.2.1 255.255.255.0</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">exit</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 3 — interface WAN para RT1 (Gig0/1)</h4>
+    <div class="cmd"><span class="dim">RT2(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/1</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">ip address</span> <span class="p">10.0.12.2 255.255.255.252</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">exit</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 4 — interface WAN para RT3 (Gig0/2)</h4>
+    <div class="cmd"><span class="dim">RT2(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/2</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">ip address</span> <span class="p">10.0.23.1 255.255.255.252</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT2(config-if)#</span> <span class="c">exit</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 5 — rotas estáticas</h4>
+    <p>RT2 precisa de rotas para LAN 1 (via RT1) e LAN 3 (via RT3).</p>
+    <div class="cmd"><span class="dim">RT2(config)#</span> <span class="c">ip route</span> <span class="p">192.168.1.0 255.255.255.0 10.0.12.1</span>
+<span class="dim">RT2(config)#</span> <span class="c">ip route</span> <span class="p">192.168.3.0 255.255.255.0 10.0.23.2</span></div>
+    <div class="ok-box"><p>Para LAN 1 o next-hop é <code>10.0.12.1</code> (RT1). Para LAN 3 é <code>10.0.23.2</code> (RT3). Direções diferentes para destinos diferentes.</p></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 6 — salvar</h4>
+    <div class="cmd"><span class="dim">RT2(config)#</span> <span class="c">end</span>
+<span class="dim">RT2#</span> <span class="c">write memory</span>
+<span class="ok">[OK]</span></div>
+  </div>
+
+  </div>
+  <div class="steps-nav">
+    <button class="nav-btn" onclick="prev('slides-rt2','prog-rt2',6)">← anterior</button>
+    <button class="nav-btn go" onclick="next('slides-rt2','prog-rt2',6)">próximo →</button>
+  </div>
+</div>
+</div>
+
+<!-- ======= RT3 ======= -->
+<div id="rt3" class="sec">
+<div class="card">
+  <span class="badge bb">RT3</span>
+  <h3>RT3 — simétrico ao RT1</h3>
+
+  <div id="prog-rt3" class="prog"></div>
+  <div id="slides-rt3">
+
+  <div class="slide on">
+    <h4>Passo 1 — nomear e entrar</h4>
+    <div class="cmd"><span class="dim">Router></span> <span class="c">enable</span>
+<span class="dim">Router#</span> <span class="c">configure terminal</span>
+<span class="dim">Router(config)#</span> <span class="c">hostname</span> <span class="p">RT3</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 2 — interface LAN (Gig0/0)</h4>
+    <div class="cmd"><span class="dim">RT3(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/0</span>
+<span class="dim">RT3(config-if)#</span> <span class="c">ip address</span> <span class="p">192.168.3.1 255.255.255.0</span>
+<span class="dim">RT3(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT3(config-if)#</span> <span class="c">exit</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 3 — interface WAN (Gig0/1)</h4>
+    <div class="cmd"><span class="dim">RT3(config)#</span> <span class="c">interface</span> <span class="p">GigabitEthernet0/1</span>
+<span class="dim">RT3(config-if)#</span> <span class="c">ip address</span> <span class="p">10.0.23.2 255.255.255.252</span>
+<span class="dim">RT3(config-if)#</span> <span class="c">no shutdown</span>
+<span class="dim">RT3(config-if)#</span> <span class="c">exit</span></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 4 — rotas estáticas</h4>
+    <p>RT3 precisa chegar em LAN 1 e LAN 2, ambas via RT2 (<code>10.0.23.1</code>).</p>
+    <div class="cmd"><span class="dim">RT3(config)#</span> <span class="c">ip route</span> <span class="p">192.168.1.0 255.255.255.0 10.0.23.1</span>
+<span class="dim">RT3(config)#</span> <span class="c">ip route</span> <span class="p">192.168.2.0 255.255.255.0 10.0.23.1</span></div>
+    <div class="ok-box"><p>O único vizinho de RT3 é RT2, então o next-hop de todas as rotas externas é sempre <code>10.0.23.1</code>.</p></div>
+  </div>
+
+  <div class="slide">
+    <h4>Passo 5 — salvar</h4>
+    <div class="cmd"><span class="dim">RT3(config)#</span> <span class="c">end</span>
+<span class="dim">RT3#</span> <span class="c">write memory</span>
+<span class="ok">[OK]</span></div>
+  </div>
+
+  </div>
+  <div class="steps-nav">
+    <button class="nav-btn" onclick="prev('slides-rt3','prog-rt3',5)">← anterior</button>
+    <button class="nav-btn go" onclick="next('slides-rt3','prog-rt3',5)">próximo →</button>
+  </div>
+</div>
+</div>
+
+<!-- ======= VERIFICAR ======= -->
+<div id="verify" class="sec">
+
+<div class="card">
+  <span class="badge bt">Verificação</span>
+  <h3>Comandos para verificar se tudo funcionou</h3>
+
+  <h4>1. Ver a tabela de roteamento</h4>
+  <div class="cmd"><span class="dim">RT1#</span> <span class="c">show ip route</span>
+
+Codes: C - connected, S - static, R - RIP, ...
+
+     10.0.0.0/30 is subnetted, 1 subnets
+<span class="ok">C       10.0.12.0/30 is directly connected, GigabitEthernet0/1</span>
+     192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+<span class="ok">C       192.168.1.0/24 is directly connected, GigabitEthernet0/0</span>
+<span class="p">S       192.168.2.0/24 [1/0] via 10.0.12.2</span>
+<span class="p">S       192.168.3.0/24 [1/0] via 10.0.12.2</span></div>
+  <div class="ok-box"><p><code>C</code> = rede conectada diretamente (interface configurada). <code>S</code> = rota estática que você configurou. Se aparecer S, funcionou!</p></div>
+
+  <h4>2. Testar ping entre redes</h4>
+  <div class="cmd"><span class="dim">RT1#</span> <span class="c">ping</span> <span class="p">192.168.3.10</span>
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.3.10, timeout is 2 seconds:
+<span class="ok">!!!!!</span>
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/1/3 ms</div>
+  <div class="ok-box"><p><code>!!!!!</code> = 5 pings com sucesso. Se aparecer <code>.....</code> (pontos) a rota não está funcionando.</p></div>
+
+  <h4>3. Testar traceroute</h4>
+  <div class="cmd"><span class="dim">RT1#</span> <span class="c">traceroute</span> <span class="p">192.168.3.10</span>
+
+Type escape sequence to abort.
+Tracing the route to 192.168.3.10
+
+  1 <span class="ok">10.0.12.2</span>   1 msec   (RT2)
+  2 <span class="ok">10.0.23.2</span>   1 msec   (RT3)
+  3 <span class="ok">192.168.3.10</span> 1 msec</div>
+  <div class="ok-box"><p>O traceroute mostra cada salto. Você consegue ver exatamente por onde o pacote passou: RT1 → RT2 → RT3 → PC3.</p></div>
+
+  <h4>4. Diagnóstico — o que fazer se o ping falhar</h4>
+  <table class="t">
+    <tr><th>Sintoma</th><th>Causa provável</th><th>Solução</th></tr>
+    <tr><td>.....</td><td>Rota faltando ou next-hop errado</td><td><code>show ip route</code> e verificar</td></tr>
+    <tr><td>Interface down</td><td>Faltou <code>no shutdown</code></td><td>Entrar na interface e rodar</td></tr>
+    <tr><td>IP errado</td><td>Digitou máscara errada</td><td><code>show interface gig0/0</code></td></tr>
+    <tr><td>Ping funciona 1 sentido só</td><td>Faltou rota de retorno no outro roteador</td><td>Verificar rotas no destino</td></tr>
+  </table>
+</div>
+</div>
+
+<!-- ======= ROTA PADRÃO ======= -->
+<div id="default" class="sec">
+<div class="card">
+  <span class="badge bb">Rota padrão</span><span class="badge br">Avançado</span>
+  <h3>Rota padrão (default route) — 0.0.0.0/0</h3>
+  <p>A rota padrão captura qualquer destino que não tenha rota específica na tabela. É usada para conectar a rede à Internet.</p>
+
+  <div class="cmd"><span class="dim">RT1(config)#</span> <span class="c">ip route</span> <span class="p">0.0.0.0 0.0.0.0 10.0.12.2</span>
+<span class="dim">RT1(config)#</span> <span class="c">end</span>
+<span class="dim">RT1#</span> <span class="c">show ip route</span>
+
+<span class="p">S*    0.0.0.0/0 [1/0] via 10.0.12.2</span>
+      <span class="dim">(rota padrão — asterisco = candidata a default)</span></div>
+
+  <div class="ok-box"><p><code>S*</code> indica rota estática padrão (S = static, * = default). O <code>/0</code> significa "zero bits de rede" — ou seja, qualquer endereço casa com essa rota.</p></div>
+
+  <h4>Quando usar rota padrão vs rota específica</h4>
+  <table class="t">
+    <tr><th>Cenário</th><th>Use</th></tr>
+    <tr><td>Roteador de borda (acessa a Internet)</td><td>Rota padrão + rotas internas específicas</td></tr>
+    <tr><td>Roteador de extremidade (stub router)</td><td>Apenas rota padrão apontando para o núcleo</td></tr>
+    <tr><td>Roteador do núcleo (conhece toda a topologia)</td><td>Somente rotas específicas</td></tr>
+  </table>
+
+  <h4>Propagar a rota padrão com um protocolo dinâmico</h4>
+  <div class="cmd"><span class="dim">RT1(config)#</span> <span class="c">router ospf</span> <span class="p">1</span>
+<span class="dim">RT1(config-router)#</span> <span class="c">default-information originate</span></div>
+  <p>Isso distribui a rota padrão automaticamente para todos os outros roteadores OSPF. Mas isso já é protocolo dinâmico — fora do escopo do roteamento estático puro.</p>
+
+  <button class="ask-btn" onclick="sendPrompt('Qual a diferença entre roteamento estático com rota padrão e roteamento dinâmico com OSPF? Quando usar cada um?')">Ver diferença: estático vs OSPF ↗</button>
+</div>
+
+<div class="card">
+  <span class="badge bb">Resumo</span>
+  <h3>Tabela de rotas configuradas na topologia completa</h3>
+  <table class="t">
+    <tr><th>Roteador</th><th>Destino</th><th>Máscara</th><th>Next-hop</th></tr>
+    <tr><td>RT1</td><td>192.168.2.0</td><td>/24</td><td>10.0.12.2</td></tr>
+    <tr><td>RT1</td><td>192.168.3.0</td><td>/24</td><td>10.0.12.2</td></tr>
+    <tr><td>RT2</td><td>192.168.1.0</td><td>/24</td><td>10.0.12.1</td></tr>
+    <tr><td>RT2</td><td>192.168.3.0</td><td>/24</td><td>10.0.23.2</td></tr>
+    <tr><td>RT3</td><td>192.168.1.0</td><td>/24</td><td>10.0.23.1</td></tr>
+    <tr><td>RT3</td><td>192.168.2.0</td><td>/24</td><td>10.0.23.1</td></tr>
+  </table>
+  <div class="warn-box"><p>Princípio fundamental: roteamento é bidirecional. Se RT1 tem rota para LAN 3, RT3 precisa ter rota de volta para LAN 1. Sem a rota de retorno o ping vai mas não volta — o host recebe o pacote mas não consegue responder.</p></div>
+</div>
+</div>
+
+<script>
+  function sw(id){
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+    event.target.classList.add('on');
+  }
+
+  function buildProg(pid,total,cur){
+    const el=document.getElementById(pid);
+    if(!el)return;
+    el.innerHTML='';
+    for(let i=0;i<total;i++){
+      const d=document.createElement('div');
+      d.className='dot'+(i===cur?' on':'');
+      const ii=i,sid=pid.replace('prog-','slides-');
+      d.onclick=()=>goTo(sid,pid,total,ii);
+      el.appendChild(d);
+    }
+  }
+
+  function goTo(sid,pid,total,idx){
+    const slides=document.getElementById(sid).querySelectorAll('.slide');
+    slides.forEach(s=>s.classList.remove('on'));
+    slides[idx].classList.add('on');
+    buildProg(pid,total,idx);
+  }
+
+  function next(sid,pid,total){
+    const slides=document.getElementById(sid).querySelectorAll('.slide');
+    let cur=0;
+    slides.forEach((s,i)=>{if(s.classList.contains('on'))cur=i;});
+    const n=Math.min(cur+1,total-1);
+    slides.forEach(s=>s.classList.remove('on'));
+    slides[n].classList.add('on');
+    buildProg(pid,total,n);
+  }
+
+  function prev(sid,pid,total){
+    const slides=document.getElementById(sid).querySelectorAll('.slide');
+    let cur=0;
+    slides.forEach((s,i)=>{if(s.classList.contains('on'))cur=i;});
+    const n=Math.max(cur-1,0);
+    slides.forEach(s=>s.classList.remove('on'));
+    slides[n].classList.add('on');
+    buildProg(pid,total,n);
+  }
+
+  buildProg('prog-rt1',5,0);
+  buildProg('prog-rt2',6,0);
+  buildProg('prog-rt3',5,0);
+</script>
