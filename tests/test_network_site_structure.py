@@ -47,6 +47,18 @@ def test_legacy_html_materials_are_preserved():
         assert file_path.stat().st_size > 10_000, f"Legacy material seems truncated: {relative_path}"
 
 
+def test_legacy_pptx_exercise_materials_are_preserved():
+    expected = [
+        "materiais/IPv4 - Exercícios.pptx",
+        "materiais/Exercício VLSM.pptx",
+    ]
+
+    for relative_path in expected:
+        file_path = ROOT / relative_path
+        assert file_path.exists(), f"Missing legacy material: {relative_path}"
+        assert file_path.stat().st_size > 100_000, f"Legacy PPTX seems truncated: {relative_path}"
+
+
 def test_home_and_pages_are_rebranded_to_networks():
     html_files = [
         ROOT / "index.html",
@@ -117,14 +129,105 @@ def test_exercises_cover_simulado_ipv4_and_vlsm():
     categories = {exercise["category"] for exercise in exercises}
 
     assert {"Simulado N2", "IPv4", "VLSM básico", "VLSM com gateway"} <= categories
-    assert len(exercises) >= 12
+    assert len(exercises) >= 28
 
     for exercise in exercises:
         assert exercise["title"]
-        assert exercise["sourceHtml"].endswith(".html")
+        assert exercise["sourceHtml"].endswith((".html", ".pptx", ".jpeg"))
         assert len(exercise["prompt"]) >= 60
         assert len(exercise["solution"]) >= 120
         assert exercise["answer"]
+
+
+def test_ipv4_pptx_exercises_include_full_prompt_fields_and_answers():
+    data = load_site_data()
+    exercises = {exercise["id"]: exercise for exercise in data["exercises"]}
+    expected = {
+        "ipv4-pptx-208-90-85-145-28": {
+            "network": "208.90.85.144",
+            "broadcast": "208.90.85.159",
+            "next": "208.90.85.160",
+        },
+        "ipv4-pptx-177-89-100-205-27": {
+            "network": "177.89.100.192",
+            "broadcast": "177.89.100.223",
+            "next": "177.89.100.224",
+        },
+        "ipv4-pptx-200-98-178-100-19": {
+            "network": "200.98.160.0",
+            "broadcast": "200.98.191.255",
+            "next": "200.98.192.0",
+        },
+        "ipv4-pptx-225-91-158-98-7": {
+            "network": "224.0.0.0",
+            "broadcast": "225.255.255.255",
+            "next": "226.0.0.0",
+        },
+    }
+
+    pptx_exercises = [
+        exercise for exercise in data["exercises"]
+        if exercise["sourceHtml"] == "IPv4 - Exercícios.pptx"
+    ]
+    assert len(pptx_exercises) >= 17
+
+    for exercise_id, fields in expected.items():
+        exercise = exercises[exercise_id]
+        prompt = exercise["prompt"]
+        solution_text = " ".join([exercise["answer"], exercise["solution"]])
+        for label in ["Rede:", "1º IP válido:", "Último IP válido:", "Broadcast:", "Próxima rede:"]:
+            assert label in prompt
+        for value in fields.values():
+            assert value in solution_text
+
+
+def test_vlsm_pptx_exercises_include_network_gateway_and_decimal_mask():
+    data = load_site_data()
+    exercises = {exercise["id"]: exercise for exercise in data["exercises"]}
+    expected = {
+        "vlsm-pptx-a30000-b2000-c500-d100-e25": ["172.16.0.0/17", "172.16.128.0/21", "172.16.138.128/27"],
+        "vlsm-pptx-a1800-b450-c180-d38-e12": ["192.168.0.0/21", "192.168.8.0/23", "192.168.11.64/28"],
+        "vlsm-gateway-pptx-5500-1100-500-100": ["10.0.0.0/19", "10.0.31.254", "255.255.224.0"],
+        "vlsm-gateway-pptx-8100-4050-220-60": ["10.0.32.0/20", "10.0.47.254", "255.255.240.0"],
+    }
+
+    pptx_exercises = [
+        exercise for exercise in data["exercises"]
+        if exercise["sourceHtml"] == "Exercício VLSM.pptx"
+    ]
+    assert len(pptx_exercises) >= 7
+
+    for exercise_id, expected_values in expected.items():
+        exercise = exercises[exercise_id]
+        text = " ".join([exercise["prompt"], exercise["answer"], exercise["solution"]])
+        assert "Endereço de Rede" in exercise["prompt"]
+        for value in expected_values:
+            assert value in text
+
+
+def test_simulado_photo_prompts_keep_full_statements_and_alternatives():
+    data = load_site_data()
+    exercises = {exercise["id"]: exercise for exercise in data["exercises"]}
+
+    q1 = exercises["simulado-rede-172-31-10-25"]["prompt"]
+    for expected in ["I.", "II.", "III.", "IV.", "A)", "B)", "C)", "D)", "E)", "172.31.10.128"]:
+        assert expected in q1
+
+    q2 = exercises["simulado-estatico-dinamico"]["prompt"]
+    for expected in ["Caio", "Pedro", "João", "A) I, II e III", "B) I e II, apenas"]:
+        assert expected in q2
+
+    q5 = exercises["ipv4-quatro-dispositivos-26"]["prompt"]
+    for expected in ["dispositivo A - 192.168.1.50/26", "dispositivo D - 192.168.2.185/26", "E) Todos"]:
+        assert expected in q5
+
+
+def test_exercise_answers_are_hidden_until_solution_is_expanded():
+    js = JS_FILE.read_text(encoding="utf-8")
+
+    assert "body.append(text('div', `Resposta:" not in js
+    assert "solution.append(text('div', `Resposta:" in js
+    assert "solution.hidden = true" in js
 
 
 def test_ipv4_and_vlsm_calculators_are_available():
