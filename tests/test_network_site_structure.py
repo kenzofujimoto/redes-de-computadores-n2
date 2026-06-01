@@ -247,6 +247,46 @@ def test_vlsm_gateway_exercises_use_real_tables_instead_of_pipe_text():
     assert ".exercise-table" in css
 
 
+def test_vlsm_basic_exercises_use_real_tables_instead_of_pipe_text():
+    data = load_site_data()
+    basic_exercises = [
+        exercise for exercise in data["exercises"]
+        if exercise["category"] == "VLSM básico"
+    ]
+
+    assert len(basic_exercises) >= 4
+
+    for exercise in basic_exercises:
+        assert "promptTable" in exercise
+        assert "answerTable" in exercise
+        assert exercise["promptTable"]["headers"] == [
+            "Rede",
+            "Hosts",
+            "Endereço de Rede / Máscara",
+        ]
+        assert exercise["answerTable"]["headers"] == [
+            "Rede",
+            "Hosts",
+            "Endereço de Rede / Máscara",
+            "Máscara decimal",
+            "Broadcast",
+            "Hosts úteis",
+        ]
+        assert len(exercise["promptTable"]["rows"]) == len(exercise["answerTable"]["rows"])
+        assert " | " not in exercise["prompt"]
+        assert " | " not in exercise["answer"]
+        assert " | " not in exercise["solution"]
+
+
+def test_exercise_content_does_not_use_pipe_separated_fake_tables():
+    data = load_site_data()
+    fields = ["prompt", "answer", "solution"]
+
+    for exercise in data["exercises"]:
+        for field in fields:
+            assert " | " not in exercise[field], f"{exercise['id']} has a fake table in {field}"
+
+
 def test_simulado_photo_prompts_keep_full_statements_and_alternatives():
     data = load_site_data()
     exercises = {exercise["id"]: exercise for exercise in data["exercises"]}
