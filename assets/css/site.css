@@ -250,6 +250,34 @@ main{width:min(1180px,calc(100% - 36px));margin:0 auto}
 .exercise-head{display:flex;justify-content:space-between;gap:12px;align-items:start;padding:16px;border-bottom:1px solid rgba(255,255,255,.08)}
 .exercise-body{display:block;padding:16px}
 .prompt{white-space:pre-line;color:#e1e8f5}
+.table-block{margin-top:14px}
+.table-block h4{margin:0 0 8px;font-size:.92rem;color:#f8fbff}
+.table-scroll{
+  max-width:100%;
+  overflow-x:auto;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;
+  background:rgba(4,10,18,.38);
+}
+.exercise-table{
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+  font-size:.88rem;
+}
+.exercise-table th,.exercise-table td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  text-align:left;
+  vertical-align:top;
+}
+.exercise-table th{
+  background:rgba(25,183,124,.14);
+  color:#d9ffed;
+  font-weight:850;
+}
+.exercise-table td{color:#e7eef9}
+.exercise-table tbody tr:last-child td{border-bottom:0}
 .answer-box{
   display:inline-flex;
   margin-top:12px;

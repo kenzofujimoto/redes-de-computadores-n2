@@ -21,6 +21,30 @@
     return node;
   }
 
+  function renderDataTable(tableData, title){
+    const block = el('div', {class:'table-block'});
+    if(title) block.append(text('h4', title));
+
+    const scroll = el('div', {class:'table-scroll'});
+    const table = el('table', {class:'exercise-table'});
+    const thead = el('thead');
+    const headRow = el('tr');
+    tableData.headers.forEach(header => headRow.append(text('th', header)));
+    thead.append(headRow);
+
+    const tbody = el('tbody');
+    tableData.rows.forEach(row => {
+      const bodyRow = el('tr');
+      row.forEach(cell => bodyRow.append(text('td', String(cell))));
+      tbody.append(bodyRow);
+    });
+
+    table.append(thead, tbody);
+    scroll.append(table);
+    block.append(scroll);
+    return block;
+  }
+
   function basePrefix(){
     const path = location.pathname.replace(/\\/g, '/');
     return path.includes('/teoria/') || path.includes('/exercicios/') || path.includes('/pratica/') ? '../' : '';
@@ -166,10 +190,16 @@
 
     const body = el('div', {class:'exercise-body'});
     body.append(text('p', exercise.prompt, {class:'prompt'}));
+    if(exercise.promptTable){
+      body.append(renderDataTable(exercise.promptTable, 'Tabela do enunciado'));
+    }
     const toggle = text('button', 'Mostrar resolução', {type:'button', class:'solution-toggle', 'aria-expanded':'false'});
     const solution = el('div', {class:'solution'});
     solution.hidden = true;
     solution.append(text('div', `Resposta: ${exercise.answer}`, {class:'answer-box'}));
+    if(exercise.answerTable){
+      solution.append(renderDataTable(exercise.answerTable, 'Tabela preenchida'));
+    }
     solution.append(text('p', exercise.solution));
     toggle.addEventListener('click', () => {
       solution.hidden = !solution.hidden;

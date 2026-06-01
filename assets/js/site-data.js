@@ -509,27 +509,306 @@ window.NETWORK_SITE_DATA = {
         "category": "VLSM com gateway",
         "title": "RT_BORDER VLANs 10=5500, 20=1100, 30=500, 40=100",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado e complete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.\n\nRede base: 10.0.0.0/8\nRT_BORDER | Interface | Rede | Hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.10 | VLAN 10 | 5500 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.20 | VLAN 20 | 1100 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.30 | VLAN 30 | 500 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.40 | VLAN 40 | 100 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal",
-        "answer": "VLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/21 | gateway 10.0.39.254 | máscara 255.255.248.0 | broadcast 10.0.39.255\nVLAN 30: 10.0.40.0/23 | gateway 10.0.41.254 | máscara 255.255.254.0 | broadcast 10.0.41.255\nVLAN 40: 10.0.42.0/25 | gateway 10.0.42.126 | máscara 255.255.255.128 | broadcast 10.0.42.127",
-        "solution": "Como o gateway pedido é o último endereço válido, use broadcast - 1 em cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco de cada prefixo. Resultado:\nVLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/21 | gateway 10.0.39.254 | máscara 255.255.248.0 | broadcast 10.0.39.255\nVLAN 30: 10.0.40.0/23 | gateway 10.0.41.254 | máscara 255.255.254.0 | broadcast 10.0.41.255\nVLAN 40: 10.0.42.0/25 | gateway 10.0.42.126 | máscara 255.255.255.128 | broadcast 10.0.42.127"
+        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado.\n\nRede base: 10.0.0.0/8\nComplete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.",
+        "answer": "VLAN 10: 10.0.0.0/19, gateway 10.0.31.254, máscara 255.255.224.0, broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/21, gateway 10.0.39.254, máscara 255.255.248.0, broadcast 10.0.39.255\nVLAN 30: 10.0.40.0/23, gateway 10.0.41.254, máscara 255.255.254.0, broadcast 10.0.41.255\nVLAN 40: 10.0.42.0/25, gateway 10.0.42.126, máscara 255.255.255.128, broadcast 10.0.42.127",
+        "solution": "Como o gateway pedido é o último endereço válido, use o endereço imediatamente anterior ao broadcast de cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco exigido pelo prefixo. A tabela preenchida abaixo mostra a rede, o gateway, a máscara decimal e o broadcast de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Interface",
+                "Rede",
+                "Hosts",
+                "Endereço de Rede/Máscara",
+                "Endereço IP do Gateway",
+                "Máscara em decimal"
+            ],
+            "rows": [
+                [
+                    "g0/0.10",
+                    "VLAN 10",
+                    "5500 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.20",
+                    "VLAN 20",
+                    "1100 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.30",
+                    "VLAN 30",
+                    "500 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.40",
+                    "VLAN 40",
+                    "100 hosts",
+                    "",
+                    "",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Interface",
+                "Rede",
+                "Hosts",
+                "Endereço de Rede/Máscara",
+                "Gateway",
+                "Máscara decimal",
+                "Broadcast"
+            ],
+            "rows": [
+                [
+                    "g0/0.10",
+                    "VLAN 10",
+                    "5500",
+                    "10.0.0.0/19",
+                    "10.0.31.254",
+                    "255.255.224.0",
+                    "10.0.31.255"
+                ],
+                [
+                    "g0/0.20",
+                    "VLAN 20",
+                    "1100",
+                    "10.0.32.0/21",
+                    "10.0.39.254",
+                    "255.255.248.0",
+                    "10.0.39.255"
+                ],
+                [
+                    "g0/0.30",
+                    "VLAN 30",
+                    "500",
+                    "10.0.40.0/23",
+                    "10.0.41.254",
+                    "255.255.254.0",
+                    "10.0.41.255"
+                ],
+                [
+                    "g0/0.40",
+                    "VLAN 40",
+                    "100",
+                    "10.0.42.0/25",
+                    "10.0.42.126",
+                    "255.255.255.128",
+                    "10.0.42.127"
+                ]
+            ]
+        }
     },
     {
         "id": "vlsm-gateway-pptx-300-200-50-20",
         "category": "VLSM com gateway",
         "title": "RT_BORDER VLANs 10=300, 20=200, 30=50, 40=20",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado e complete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.\n\nRede base: 10.0.0.0/8\nRT_BORDER | Interface | Rede | Hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.10 | VLAN 10 | 300 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.20 | VLAN 20 | 200 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.30 | VLAN 30 | 50 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.40 | VLAN 40 | 20 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal",
-        "answer": "VLAN 10: 10.0.0.0/23 | gateway 10.0.1.254 | máscara 255.255.254.0 | broadcast 10.0.1.255\nVLAN 20: 10.0.2.0/24 | gateway 10.0.2.254 | máscara 255.255.255.0 | broadcast 10.0.2.255\nVLAN 30: 10.0.3.0/26 | gateway 10.0.3.62 | máscara 255.255.255.192 | broadcast 10.0.3.63\nVLAN 40: 10.0.3.64/27 | gateway 10.0.3.94 | máscara 255.255.255.224 | broadcast 10.0.3.95",
-        "solution": "Como o gateway pedido é o último endereço válido, use broadcast - 1 em cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco de cada prefixo. Resultado:\nVLAN 10: 10.0.0.0/23 | gateway 10.0.1.254 | máscara 255.255.254.0 | broadcast 10.0.1.255\nVLAN 20: 10.0.2.0/24 | gateway 10.0.2.254 | máscara 255.255.255.0 | broadcast 10.0.2.255\nVLAN 30: 10.0.3.0/26 | gateway 10.0.3.62 | máscara 255.255.255.192 | broadcast 10.0.3.63\nVLAN 40: 10.0.3.64/27 | gateway 10.0.3.94 | máscara 255.255.255.224 | broadcast 10.0.3.95"
+        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado.\n\nRede base: 10.0.0.0/8\nComplete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.",
+        "answer": "VLAN 10: 10.0.0.0/23, gateway 10.0.1.254, máscara 255.255.254.0, broadcast 10.0.1.255\nVLAN 20: 10.0.2.0/24, gateway 10.0.2.254, máscara 255.255.255.0, broadcast 10.0.2.255\nVLAN 30: 10.0.3.0/26, gateway 10.0.3.62, máscara 255.255.255.192, broadcast 10.0.3.63\nVLAN 40: 10.0.3.64/27, gateway 10.0.3.94, máscara 255.255.255.224, broadcast 10.0.3.95",
+        "solution": "Como o gateway pedido é o último endereço válido, use o endereço imediatamente anterior ao broadcast de cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco exigido pelo prefixo. A tabela preenchida abaixo mostra a rede, o gateway, a máscara decimal e o broadcast de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Interface",
+                "Rede",
+                "Hosts",
+                "Endereço de Rede/Máscara",
+                "Endereço IP do Gateway",
+                "Máscara em decimal"
+            ],
+            "rows": [
+                [
+                    "g0/0.10",
+                    "VLAN 10",
+                    "300 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.20",
+                    "VLAN 20",
+                    "200 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.30",
+                    "VLAN 30",
+                    "50 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.40",
+                    "VLAN 40",
+                    "20 hosts",
+                    "",
+                    "",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Interface",
+                "Rede",
+                "Hosts",
+                "Endereço de Rede/Máscara",
+                "Gateway",
+                "Máscara decimal",
+                "Broadcast"
+            ],
+            "rows": [
+                [
+                    "g0/0.10",
+                    "VLAN 10",
+                    "300",
+                    "10.0.0.0/23",
+                    "10.0.1.254",
+                    "255.255.254.0",
+                    "10.0.1.255"
+                ],
+                [
+                    "g0/0.20",
+                    "VLAN 20",
+                    "200",
+                    "10.0.2.0/24",
+                    "10.0.2.254",
+                    "255.255.255.0",
+                    "10.0.2.255"
+                ],
+                [
+                    "g0/0.30",
+                    "VLAN 30",
+                    "50",
+                    "10.0.3.0/26",
+                    "10.0.3.62",
+                    "255.255.255.192",
+                    "10.0.3.63"
+                ],
+                [
+                    "g0/0.40",
+                    "VLAN 40",
+                    "20",
+                    "10.0.3.64/27",
+                    "10.0.3.94",
+                    "255.255.255.224",
+                    "10.0.3.95"
+                ]
+            ]
+        }
     },
     {
         "id": "vlsm-gateway-pptx-8100-4050-220-60",
         "category": "VLSM com gateway",
         "title": "RT_BORDER VLANs 10=8100, 20=4050, 30=220, 40=60",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado e complete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.\n\nRede base: 10.0.0.0/8\nRT_BORDER | Interface | Rede | Hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.10 | VLAN 10 | 8100 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.20 | VLAN 20 | 4050 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.30 | VLAN 30 | 220 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.40 | VLAN 40 | 60 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal",
-        "answer": "VLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/20 | gateway 10.0.47.254 | máscara 255.255.240.0 | broadcast 10.0.47.255\nVLAN 30: 10.0.48.0/24 | gateway 10.0.48.254 | máscara 255.255.255.0 | broadcast 10.0.48.255\nVLAN 40: 10.0.49.0/26 | gateway 10.0.49.62 | máscara 255.255.255.192 | broadcast 10.0.49.63",
-        "solution": "Como o gateway pedido é o último endereço válido, use broadcast - 1 em cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco de cada prefixo. Resultado:\nVLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/20 | gateway 10.0.47.254 | máscara 255.255.240.0 | broadcast 10.0.47.255\nVLAN 30: 10.0.48.0/24 | gateway 10.0.48.254 | máscara 255.255.255.0 | broadcast 10.0.48.255\nVLAN 40: 10.0.49.0/26 | gateway 10.0.49.62 | máscara 255.255.255.192 | broadcast 10.0.49.63"
+        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado.\n\nRede base: 10.0.0.0/8\nComplete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.",
+        "answer": "VLAN 10: 10.0.0.0/19, gateway 10.0.31.254, máscara 255.255.224.0, broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/20, gateway 10.0.47.254, máscara 255.255.240.0, broadcast 10.0.47.255\nVLAN 30: 10.0.48.0/24, gateway 10.0.48.254, máscara 255.255.255.0, broadcast 10.0.48.255\nVLAN 40: 10.0.49.0/26, gateway 10.0.49.62, máscara 255.255.255.192, broadcast 10.0.49.63",
+        "solution": "Como o gateway pedido é o último endereço válido, use o endereço imediatamente anterior ao broadcast de cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco exigido pelo prefixo. A tabela preenchida abaixo mostra a rede, o gateway, a máscara decimal e o broadcast de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Interface",
+                "Rede",
+                "Hosts",
+                "Endereço de Rede/Máscara",
+                "Endereço IP do Gateway",
+                "Máscara em decimal"
+            ],
+            "rows": [
+                [
+                    "g0/0.10",
+                    "VLAN 10",
+                    "8100 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.20",
+                    "VLAN 20",
+                    "4050 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.30",
+                    "VLAN 30",
+                    "220 hosts",
+                    "",
+                    "",
+                    ""
+                ],
+                [
+                    "g0/0.40",
+                    "VLAN 40",
+                    "60 hosts",
+                    "",
+                    "",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Interface",
+                "Rede",
+                "Hosts",
+                "Endereço de Rede/Máscara",
+                "Gateway",
+                "Máscara decimal",
+                "Broadcast"
+            ],
+            "rows": [
+                [
+                    "g0/0.10",
+                    "VLAN 10",
+                    "8100",
+                    "10.0.0.0/19",
+                    "10.0.31.254",
+                    "255.255.224.0",
+                    "10.0.31.255"
+                ],
+                [
+                    "g0/0.20",
+                    "VLAN 20",
+                    "4050",
+                    "10.0.32.0/20",
+                    "10.0.47.254",
+                    "255.255.240.0",
+                    "10.0.47.255"
+                ],
+                [
+                    "g0/0.30",
+                    "VLAN 30",
+                    "220",
+                    "10.0.48.0/24",
+                    "10.0.48.254",
+                    "255.255.255.0",
+                    "10.0.48.255"
+                ],
+                [
+                    "g0/0.40",
+                    "VLAN 40",
+                    "60",
+                    "10.0.49.0/26",
+                    "10.0.49.62",
+                    "255.255.255.192",
+                    "10.0.49.63"
+                ]
+            ]
+        }
     }
 ],
   "practiceGuides": [
