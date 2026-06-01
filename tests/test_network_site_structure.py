@@ -205,6 +205,48 @@ def test_vlsm_pptx_exercises_include_network_gateway_and_decimal_mask():
             assert value in text
 
 
+def test_vlsm_gateway_exercises_use_real_tables_instead_of_pipe_text():
+    data = load_site_data()
+    gateway_exercises = [
+        exercise for exercise in data["exercises"]
+        if exercise["category"] == "VLSM com gateway"
+    ]
+
+    assert len(gateway_exercises) >= 3
+
+    for exercise in gateway_exercises:
+        assert "promptTable" in exercise
+        assert "answerTable" in exercise
+        assert exercise["promptTable"]["headers"] == [
+            "Interface",
+            "Rede",
+            "Hosts",
+            "Endereço de Rede/Máscara",
+            "Endereço IP do Gateway",
+            "Máscara em decimal",
+        ]
+        assert exercise["answerTable"]["headers"] == [
+            "Interface",
+            "Rede",
+            "Hosts",
+            "Endereço de Rede/Máscara",
+            "Gateway",
+            "Máscara decimal",
+            "Broadcast",
+        ]
+        assert len(exercise["promptTable"]["rows"]) == len(exercise["answerTable"]["rows"])
+        assert " | " not in exercise["answer"]
+        assert " | " not in exercise["solution"]
+
+    js = JS_FILE.read_text(encoding="utf-8")
+    css = CSS_FILE.read_text(encoding="utf-8")
+
+    assert "renderDataTable" in js
+    assert "exercise.promptTable" in js
+    assert "exercise.answerTable" in js
+    assert ".exercise-table" in css
+
+
 def test_simulado_photo_prompts_keep_full_statements_and_alternatives():
     data = load_site_data()
     exercises = {exercise["id"]: exercise for exercise in data["exercises"]}
