@@ -161,7 +161,7 @@
     const card = el('article', {class:'exercise-card', 'data-exercise-id':exercise.id});
     const head = el('div', {class:'exercise-head'});
     const headCopy = el('div');
-    headCopy.append(text('span', exercise.category, {class:'tag'}), text('h3', exercise.title), text('small', `Fonte: ${exercise.sourceHtml}`, {class:'source'}));
+    headCopy.append(text('span', exercise.category, {class:'tag'}), text('h3', exercise.title));
     head.append(headCopy);
 
     const body = el('div', {class:'exercise-body'});
