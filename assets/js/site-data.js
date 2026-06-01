@@ -19,6 +19,16 @@ window.NETWORK_SITE_DATA = {
       "title": "Gabarito de exercícios",
       "file": "materiais/gabarito_exercicios_redes.html",
       "summary": "Resoluções do simulado, exercícios IPv4, VLSM básico e VLSM com gateway."
+    },
+    {
+      "title": "IPv4 - Exercícios",
+      "file": "materiais/IPv4 - Exercícios.pptx",
+      "summary": "Slides originais com exercícios de cálculo IPv4: rede, primeiro válido, último válido, broadcast e próxima rede."
+    },
+    {
+      "title": "Exercício VLSM",
+      "file": "materiais/Exercício VLSM.pptx",
+      "summary": "Slides originais com exercícios VLSM básicos e com gateway por VLAN."
     }
   ],
   "theoryTopics": [
@@ -225,114 +235,303 @@ window.NETWORK_SITE_DATA = {
   ],
   "exercises": [
     {
-      "id": "simulado-rede-172-31-10-25",
-      "category": "Simulado N2",
-      "title": "Rede 172.31.10.0/25",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Para a rede 172.31.10.0/25, avalie as afirmações sobre quantidade de hosts úteis, endereço de rede, broadcast, máscara em binário e último IP válido.",
-      "answer": "D) I, II e III, apenas.",
-      "solution": "O prefixo /25 deixa 7 bits para host. Logo existem 2^7 = 128 endereços totais e 126 hosts úteis. A máscara é 255.255.255.128, com último octeto 10000000 em binário. A rede começa em 172.31.10.0 e o broadcast é 172.31.10.127. O último IP válido é 172.31.10.126, portanto qualquer afirmação dizendo que .128 é válido está errada."
+        "id": "simulado-rede-172-31-10-25",
+        "category": "Simulado N2",
+        "title": "Rede 172.31.10.0/25",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.13 (1).jpeg",
+        "prompt": "O IP é um protocolo de Internet que atua na camada de rede e é responsável pelo endereçamento dos dispositivos. O IP na versão 4, que ainda é a mais utilizada, comporta 32 bits, dividindo-se em bits que apontam para a rede e bits que apontam para os dispositivos. Essa lógica é determinada pelo prefixo ou pela máscara de sub-rede. Considere uma rede cuja faixa de IP disponibilizada seja 172.31.10.0/25 e observe as seguintes afirmações:\n\nI. Essa rede possui um range de 126 endereços a serem atribuídos aos seus hosts (dispositivos).\nII. O endereço de rede é 172.31.10.0, e o endereço de broadcast é 172.31.10.127.\nIII. Sua máscara de rede é 255.255.255.128, o que equivale em binário a 11111111.11111111.11111111.10000000.\nIV. O primeiro número de IP é o 172.31.10.1, e o último número de IP é o 172.31.10.128.\n\nÉ CORRETO o que se afirma em:\nA) I e IV, apenas.\nB) II e III, apenas.\nC) III e IV, apenas.\nD) I, II e III, apenas.\nE) I, II, III e IV.",
+        "answer": "D) I, II e III, apenas.",
+        "solution": "O prefixo /25 deixa 7 bits para host. Logo existem 2^7 = 128 endereços totais e 126 hosts úteis. A rede é 172.31.10.0, o primeiro host é 172.31.10.1, o último host válido é 172.31.10.126 e o broadcast é 172.31.10.127. A máscara 255.255.255.128 corresponde a 11111111.11111111.11111111.10000000. A IV erra ao dizer que 172.31.10.128 é o último IP válido; esse endereço já pertence à próxima rede."
     },
     {
-      "id": "simulado-estatico-dinamico",
-      "category": "Simulado N2",
-      "title": "Roteamento estático vs dinâmico",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Em uma empresa, três afirmações comparam roteamento estático e dinâmico. Identifique quais estão corretas considerando manutenção manual, topologia e consumo de recursos.",
-      "answer": "B) I e II, apenas.",
-      "solution": "Roteamento estático é configurado manualmente e não considera carga dos roteadores vizinhos, então a primeira afirmação está correta. Rotas estáticas diretas podem manter comunicação mesmo sem troca dinâmica de informações, então a segunda também está correta no cenário proposto. A terceira está errada porque quem consome mais recursos de rede e CPU é o roteamento dinâmico, por causa das mensagens de atualização e cálculo de rotas."
+        "id": "simulado-estatico-dinamico",
+        "category": "Simulado N2",
+        "title": "Roteamento estático vs dinâmico",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.13.jpeg",
+        "prompt": "A equipe de TI de uma empresa de refrigerantes está configurando sua rede de computadores e conexão com a rede global (Internet). Alguns técnicos se manifestam favoráveis a montar a tabela de roteamento dinamicamente e outros preferem que a tabela de roteamento seja estática.\n\nConsiderando as alegações feitas pelos técnicos, julgue os itens a seguir.\n\nI. Caio é favorável ao roteamento dinâmico e afirma que o roteamento estático é definido de forma manual, portanto, não necessariamente levará em conta se o próximo roteador na rota está sobrecarregado.\n\nII. Pedro, adepto ao roteamento estático, afirma que, no caso de uma impossibilidade de comunicação entre os roteadores, estes ficarão desinformados sobre a topologia atual da rede. Por isso, ele defende que uma boa solução é estabelecer uma comunicação direta entre esses roteadores pela definição de rotas estáticas.\n\nIII. João, que defende uma solução mista, afirma que, uma vez que exigem um esforço de cálculo de rota, as rotas estáticas demandam mais recursos de rede do que o roteamento dinâmico.\n\nÉ correto o que se afirma em:\nA) I, II e III.\nB) I e II, apenas.\nC) II e III, apenas.\nD) I, apenas.\nE) III, apenas.",
+        "answer": "B) I e II, apenas.",
+        "solution": "A I está correta: rota estática é manual e não considera automaticamente carga ou mudança dinâmica na rede. A II também é correta no cenário descrito: rotas estáticas diretas podem manter caminhos definidos sem depender da troca de mensagens de um protocolo dinâmico. A III está errada porque rotas estáticas não fazem cálculo dinâmico de caminho nem trocam atualizações; protocolos dinâmicos é que consomem mais CPU, memória e banda de controle."
     },
     {
-      "id": "simulado-protocolos-caracteristicas",
-      "category": "Simulado N2",
-      "title": "Relacionar protocolos às características",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Relacione protocolos e conceitos de redes, como DHCP, ICMP, ARP, NAT, SNMP e roteamento, às suas funções principais.",
-      "answer": "Conferir pares pela função: DHCP configura, ICMP diagnostica, ARP resolve MAC, NAT traduz, SNMP gerencia.",
-      "solution": "O caminho seguro é associar cada protocolo à sua função operacional. DHCP entrega IP, máscara, gateway e DNS automaticamente. ICMP comunica erros e permite ping/traceroute. ARP descobre o endereço MAC correspondente a um IP local. NAT traduz endereços privados para públicos, muitas vezes com portas. SNMP coleta ou altera informações de gerenciamento via agente, gerente, MIB e OID."
+        "id": "simulado-protocolos-caracteristicas",
+        "category": "Simulado N2",
+        "title": "TCP, IP e UDP: relacione às características",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12 (2).jpeg",
+        "prompt": "Considerando o modelo de camadas presente na Internet e o relacionamento entre os protocolos presentes em cada uma delas, analise as sentenças a seguir e relacione-as aos protocolos, usando o seguinte critério:\n\n(A) TCP\n(B) IP\n(C) UDP\n\n[ ] Provê serviço de transporte não orientado para conexão à aplicação.\n[ ] Provê à aplicação serviço de transporte orientado para conexão.\n[ ] Provê comunicação lógica entre hospedeiros, mas sem garantia de entrega.\n[ ] Provê serviço de transporte confiável à aplicação.\n[ ] Provê um modelo de serviço de entrega de melhor esforço entre hospedeiros.\n[ ] Provê serviço de transporte não confiável à aplicação.\n\nA sequência CORRETA é a seguinte:\nA) B, C, A, A, C, B\nB) C, C, A, C, B, A\nC) A, B, A, C, C, A\nD) C, A, B, A, B, C\nE) A, C, B, C, B, A",
+        "answer": "D) C, A, B, A, B, C.",
+        "solution": "UDP é transporte não orientado à conexão e não confiável, portanto aparece na primeira e na última lacuna. TCP é transporte orientado à conexão e confiável para a aplicação, logo ocupa a segunda e a quarta lacuna. IP fornece comunicação lógica entre hospedeiros e opera com melhor esforço, sem garantia de entrega, então ocupa a terceira e a quinta lacuna. A sequência é C, A, B, A, B, C."
     },
     {
-      "id": "simulado-ipv4-64-bits",
-      "category": "Simulado N2",
-      "title": "IPv4 tem 64 bits?",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Analise a afirmação: IPv4 funciona como identificador de 64 bits e identifica redes e hosts em uma estrutura hexadecimal.",
-      "answer": "Afirmação falsa.",
-      "solution": "IPv4 possui 32 bits, normalmente escritos em quatro octetos decimais, como 192.168.1.10. Quem usa 128 bits e escrita hexadecimal é o IPv6. IPv4 identifica rede e host por meio da máscara ou prefixo CIDR. Portanto a afirmação mistura características de IPv4 e IPv6 e deve ser marcada como falsa."
+        "id": "simulado-ipv4-64-bits",
+        "category": "Simulado N2",
+        "title": "IPv4 funciona como identificador de 64 bits?",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12 (2).jpeg",
+        "prompt": "A respeito de arquitetura de rede TCP/IP, julgue o item a seguir.\n\nO IPv4 funciona como identificador de 64 bits utilizado para identificar dispositivos em uma rede.\n\n( ) Certo\n( ) Errado",
+        "answer": "Errado.",
+        "solution": "IPv4 possui 32 bits, não 64. Ele é escrito em quatro octetos decimais, como 192.168.1.10, e a separação entre rede e host depende da máscara ou prefixo CIDR. Quem possui 128 bits é o IPv6. Portanto o item deve ser marcado como Errado."
     },
     {
-      "id": "ipv4-quatro-dispositivos-26",
-      "category": "IPv4",
-      "title": "Quatro dispositivos com /26",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Dado um conjunto de quatro dispositivos com máscara /26, determine em quais sub-redes eles estão e quais são os intervalos válidos.",
-      "answer": "Use blocos de 64 endereços no quarto octeto.",
-      "solution": "Em /26, o bloco é 64 porque a máscara é 255.255.255.192. As redes dentro de um /24 aparecem em .0, .64, .128 e .192. Para cada IP, encontre o múltiplo de 64 imediatamente menor ou igual ao último octeto. O broadcast é o fim do bloco e os hosts válidos ficam entre rede + 1 e broadcast - 1."
+        "id": "ipv4-quatro-dispositivos-26",
+        "category": "IPv4",
+        "title": "Quatro dispositivos com /26",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12 (2).jpeg",
+        "prompt": "Quatro dispositivos estão conectados à rede de uma organização e estão com os seguintes endereços IP:\n\ndispositivo A - 192.168.1.50/26;\ndispositivo B - 192.168.1.80/26;\ndispositivo C - 192.168.2.135/26; e\ndispositivo D - 192.168.2.185/26.\n\nAssinale a opção que descreve corretamente as sub-redes desses dispositivos.\n\nAlternativas:\nA) Todos os dispositivos estão na mesma sub-rede.\nB) Os dispositivos A e B estão na mesma sub-rede, enquanto os dispositivos C e D estão em sub-redes diferentes.\nC) Os dispositivos A e B estão em uma mesma sub-rede, enquanto os dispositivos C e D estão ambos em outra sub-rede.\nD) Os dispositivos A e B estão em sub-redes diferentes, enquanto os dispositivos C e D estão na mesma sub-rede.\nE) Todos os dispositivos estão em sub-redes diferentes.",
+        "answer": "D) Os dispositivos A e B estão em sub-redes diferentes, enquanto C e D estão na mesma sub-rede.",
+        "solution": "Com /26, o bloco é 64 endereços: .0-.63, .64-.127, .128-.191 e .192-.255 dentro de cada /24. O A 192.168.1.50 fica em 192.168.1.0/26. O B 192.168.1.80 fica em 192.168.1.64/26. Portanto A e B estão em sub-redes diferentes. O C 192.168.2.135 e o D 192.168.2.185 ficam no bloco 192.168.2.128/26, então estão na mesma sub-rede."
     },
     {
-      "id": "ipv4-209-98-85-145-28",
-      "category": "IPv4",
-      "title": "Calcule 209.98.85.145/28",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Calcule rede, broadcast, primeiro IP válido, último IP válido, máscara e quantidade de hosts úteis para 209.98.85.145/28.",
-      "answer": "Rede 209.98.85.144, broadcast 209.98.85.159, hosts úteis 14.",
-      "solution": "O prefixo /28 deixa 4 bits de host, então há 16 endereços por bloco e 14 hosts úteis. A máscara é 255.255.255.240. Os blocos no quarto octeto são múltiplos de 16: 0, 16, 32 e assim por diante. O IP 145 cai no bloco que começa em 144. Logo a rede é 209.98.85.144, o broadcast é 209.98.85.159, o primeiro válido é .145 e o último válido é .158."
+        "id": "simulado-definicao-ip",
+        "category": "Simulado N2",
+        "title": "Como podemos definir um endereço IP?",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12 (1).jpeg",
+        "prompt": "Como podemos definir um endereço IP?\n\nAlternativas:\nA) Uma identificação criptografada única de um computador na rede local.\nB) Um código de barras utilizado para identificar dispositivos de rede.\nC) Um número que identifica um dispositivo na rede.\nD) Uma senha utilizada para autenticação em uma rede.\nE) Um dispositivo de armazenamento.",
+        "answer": "C) Um número que identifica um dispositivo na rede.",
+        "solution": "Um endereço IP identifica logicamente um dispositivo ou interface em uma rede IP. Ele não é senha, código de barras, armazenamento nem identificação criptografada. Em IPv4, esse número possui 32 bits e é escrito em quatro octetos decimais; em IPv6, possui 128 bits e é escrito em hexadecimal."
     },
     {
-      "id": "ipv4-172-16-20-0-16",
-      "category": "IPv4",
-      "title": "Calcule 172.16.20.0/16",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Para 172.16.20.0/16, calcule a rede real, broadcast, faixa de hosts e quantidade de hosts úteis.",
-      "answer": "Rede 172.16.0.0, broadcast 172.16.255.255.",
-      "solution": "Com /16, os dois primeiros octetos pertencem à rede e os dois últimos pertencem ao host. Portanto 172.16.20.0 não é a rede do bloco; é apenas um endereço dentro da rede 172.16.0.0/16. O broadcast é 172.16.255.255, o primeiro host válido é 172.16.0.1, o último é 172.16.255.254 e os hosts úteis são 2^16 - 2 = 65534."
+        "id": "ipv4-209-98-85-145-28",
+        "category": "IPv4",
+        "title": "Tendo o endereço 209.98.85.145/28 como base",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12 (1).jpeg",
+        "prompt": "Endereço: 209.98.85.145/28\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 209.98.85.144, 1º IP válido 209.98.85.145, último IP válido 209.98.85.158, broadcast 209.98.85.159, próxima rede 209.98.85.160, máscara 255.255.255.240, hosts úteis 14.",
+        "solution": "O prefixo /28 deixa 4 bits para host. A máscara decimal é 255.255.255.240 e o bloco tem 16 endereços. O endereço 209.98.85.145 cai na rede 209.98.85.144/28. A faixa válida começa em 209.98.85.145 e termina em 209.98.85.158. O broadcast é 209.98.85.159; o próximo bloco começa em 209.98.85.160."
     },
     {
-      "id": "vlsm-base-10-0-0-0",
-      "category": "VLSM básico",
-      "title": "VLSM para VLANs com base 10.0.0.0/8",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Calcule VLSM para uma lista de VLANs usando a rede base 10.0.0.0/8, alocando da maior necessidade de hosts para a menor.",
-      "answer": "Ordene por hosts, escolha prefixos mínimos e aloque sequencialmente.",
-      "solution": "A estratégia é ordenar as VLANs da maior para a menor. Para cada quantidade de hosts, encontre o menor número de bits de host que comporta hosts + 2 endereços. Depois converta para prefixo: 32 menos bits de host. A primeira rede começa em 10.0.0.0 e as próximas começam no endereço seguinte ao broadcast anterior, sempre respeitando o tamanho do bloco."
+        "id": "ipv4-172-16-20-0-16",
+        "category": "IPv4",
+        "title": "Tendo o endereço 172.16.20.0/16 como base",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12 (1).jpeg",
+        "prompt": "Endereço: 172.16.20.0/16\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 172.16.0.0, 1º IP válido 172.16.0.1, último IP válido 172.16.255.254, broadcast 172.16.255.255, próxima rede 172.17.0.0, máscara 255.255.0.0, hosts úteis 65534.",
+        "solution": "O prefixo /16 deixa 16 bits para host. A máscara decimal é 255.255.0.0 e o bloco tem 65536 endereços. O endereço 172.16.20.0 cai na rede 172.16.0.0/16. A faixa válida começa em 172.16.0.1 e termina em 172.16.255.254. O broadcast é 172.16.255.255; o próximo bloco começa em 172.17.0.0."
     },
     {
-      "id": "vlsm-a1000-b200-c50-d10-e2",
-      "category": "VLSM básico",
-      "title": "VLANs A=1000, B=200, C=50, D=10, E=2",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Divida uma rede para VLANs com 1000, 200, 50, 10 e 2 hosts, usando VLSM sem desperdiçar grandes blocos.",
-      "answer": "A /22, B /24, C /26, D /28, E /30.",
-      "solution": "Para 1000 hosts, 10 bits de host dão 1024 endereços e 1022 úteis, então o prefixo é /22. Para 200 hosts, /24 fornece 254 úteis. Para 50, /26 fornece 62 úteis. Para 10, /28 fornece 14 úteis. Para 2, /30 fornece exatamente 2 úteis. A alocação deve seguir essa ordem para impedir que uma rede grande fique sem espaço contíguo."
+        "id": "questao-aberta-rotas-estaticas-dinamicas",
+        "category": "Simulado N2",
+        "title": "Vantagens e desvantagens de rotas estáticas e dinâmicas",
+        "sourceHtml": "WhatsApp Image 2026-05-31 at 18.28.12.jpeg",
+        "prompt": "Imagine que você é um administrador de rede responsável por configurar a infraestrutura de rede de uma empresa de médio porte. A rede da empresa é composta por vários sub-redes que precisam se comunicar entre si de maneira eficiente e segura. Você tem a opção de configurar rotas estáticas ou implementar um protocolo de roteamento dinâmico para gerenciar o tráfego de dados entre essas sub-redes.\n\nRotas estáticas são configuradas manualmente e permanecem fixas, a menos que sejam alteradas manualmente. Por outro lado, protocolos de roteamento dinâmico, como OSPF (Open Shortest Path First) ou RIP (Routing Information Protocol), ajustam automaticamente as rotas com base nas condições atuais da rede, como mudanças na topologia ou falhas de rede.\n\nConsiderando esse cenário, quais são as vantagens e desvantagens de usar rotas estáticas e rotas dinâmicas para gerenciar o tráfego de rede em sua empresa?",
+        "answer": "Rotas estáticas são simples e previsíveis; rotas dinâmicas se adaptam melhor a mudanças, mas consomem mais recursos e exigem configuração cuidadosa.",
+        "solution": "Rotas estáticas têm como vantagens simplicidade, previsibilidade, baixo consumo de CPU/banda e controle explícito do caminho. Como desvantagens, não se adaptam automaticamente a falhas e exigem manutenção manual em redes maiores. Rotas dinâmicas, como OSPF e RIP, aprendem caminhos e reagem a mudanças de topologia, sendo melhores para ambientes maiores ou mutáveis. Em troca, exigem planejamento, podem convergir com atraso, consomem recursos e precisam de segurança para evitar anúncios indevidos."
     },
     {
-      "id": "vlsm-30000-2000-500-100-25",
-      "category": "VLSM básico",
-      "title": "VLANs A=30000, B=2000, C=500, D=100, E=25",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Escolha prefixos adequados para VLANs de 30000, 2000, 500, 100 e 25 hosts e explique a lógica.",
-      "answer": "A /17, B /21, C /23, D /25, E /27.",
-      "solution": "Para 30000 hosts, 15 bits de host geram 32766 úteis, então /17. Para 2000, 11 bits geram 2046 úteis, então /21. Para 500, 9 bits geram 510 úteis, então /23. Para 100, 7 bits geram 126 úteis, então /25. Para 25, 5 bits geram 30 úteis, então /27. A lógica é sempre escolher o menor bloco que ainda comporta a demanda."
+        "id": "ipv4-pptx-208-90-85-145-28",
+        "category": "IPv4",
+        "title": "Calcule 208.90.85.145/28",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 208.90.85.145/28\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 208.90.85.144, 1º IP válido 208.90.85.145, último IP válido 208.90.85.158, broadcast 208.90.85.159, próxima rede 208.90.85.160, máscara 255.255.255.240, hosts úteis 14.",
+        "solution": "O prefixo /28 deixa 4 bits para host. A máscara decimal é 255.255.255.240 e o bloco tem 16 endereços. O endereço 208.90.85.145 cai na rede 208.90.85.144/28. A faixa válida começa em 208.90.85.145 e termina em 208.90.85.158. O broadcast é 208.90.85.159; o próximo bloco começa em 208.90.85.160."
     },
     {
-      "id": "vlsm-gateway-5500-1100-500-100",
-      "category": "VLSM com gateway",
-      "title": "VLANs 10=5500, 20=1100, 30=500, 40=100",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Calcule VLSM para VLANs 10, 20, 30 e 40 e reserve um gateway válido para cada sub-rede.",
-      "answer": "Use /19, /21, /23 e /25; gateway deve ser IP válido.",
-      "solution": "Para 5500 hosts, /19 oferece 8190 úteis. Para 1100, /21 oferece 2046 úteis. Para 500, /23 oferece 510 úteis. Para 100, /25 oferece 126 úteis. Depois de definir cada rede e broadcast, escolha um gateway dentro da faixa válida, normalmente o primeiro IP de host. Nunca use o endereço de rede nem o broadcast como gateway."
+        "id": "ipv4-pptx-188-57-121-200-26",
+        "category": "IPv4",
+        "title": "Calcule 188.57.121.200/26",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 188.57.121.200/26\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 188.57.121.192, 1º IP válido 188.57.121.193, último IP válido 188.57.121.254, broadcast 188.57.121.255, próxima rede 188.57.122.0, máscara 255.255.255.192, hosts úteis 62.",
+        "solution": "O prefixo /26 deixa 6 bits para host. A máscara decimal é 255.255.255.192 e o bloco tem 64 endereços. O endereço 188.57.121.200 cai na rede 188.57.121.192/26. A faixa válida começa em 188.57.121.193 e termina em 188.57.121.254. O broadcast é 188.57.121.255; o próximo bloco começa em 188.57.122.0."
     },
     {
-      "id": "vlsm-gateway-300-200-50-20",
-      "category": "VLSM com gateway",
-      "title": "VLANs 10=300, 20=200, 30=50, 40=20",
-      "sourceHtml": "gabarito_exercicios_redes.html",
-      "prompt": "Faça o planejamento VLSM para quatro VLANs com gateway, preservando ordem por tamanho e evitando sobreposição.",
-      "answer": "Use /23, /24, /26 e /27.",
-      "solution": "A VLAN de 300 hosts precisa de /23 porque /24 só comporta 254 úteis. A VLAN de 200 hosts cabe em /24. A de 50 cabe em /26 e a de 20 cabe em /27. A alocação começa pela maior e cada próxima rede começa logo após o broadcast da anterior. O gateway pode ser o primeiro IP válido de cada bloco, desde que a regra seja mantida consistentemente."
+        "id": "ipv4-pptx-177-89-100-205-27",
+        "category": "IPv4",
+        "title": "Calcule 177.89.100.205/27",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 177.89.100.205/27\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 177.89.100.192, 1º IP válido 177.89.100.193, último IP válido 177.89.100.222, broadcast 177.89.100.223, próxima rede 177.89.100.224, máscara 255.255.255.224, hosts úteis 30.",
+        "solution": "O prefixo /27 deixa 5 bits para host. A máscara decimal é 255.255.255.224 e o bloco tem 32 endereços. O endereço 177.89.100.205 cai na rede 177.89.100.192/27. A faixa válida começa em 177.89.100.193 e termina em 177.89.100.222. O broadcast é 177.89.100.223; o próximo bloco começa em 177.89.100.224."
+    },
+    {
+        "id": "ipv4-pptx-215-180-23-140-25",
+        "category": "IPv4",
+        "title": "Calcule 215.180.23.140/25",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 215.180.23.140/25\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 215.180.23.128, 1º IP válido 215.180.23.129, último IP válido 215.180.23.254, broadcast 215.180.23.255, próxima rede 215.180.24.0, máscara 255.255.255.128, hosts úteis 126.",
+        "solution": "O prefixo /25 deixa 7 bits para host. A máscara decimal é 255.255.255.128 e o bloco tem 128 endereços. O endereço 215.180.23.140 cai na rede 215.180.23.128/25. A faixa válida começa em 215.180.23.129 e termina em 215.180.23.254. O broadcast é 215.180.23.255; o próximo bloco começa em 215.180.24.0."
+    },
+    {
+        "id": "ipv4-pptx-200-98-178-100-19",
+        "category": "IPv4",
+        "title": "Calcule 200.98.178.100/19",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 200.98.178.100/19\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 200.98.160.0, 1º IP válido 200.98.160.1, último IP válido 200.98.191.254, broadcast 200.98.191.255, próxima rede 200.98.192.0, máscara 255.255.224.0, hosts úteis 8190.",
+        "solution": "O prefixo /19 deixa 13 bits para host. A máscara decimal é 255.255.224.0 e o bloco tem 8192 endereços. O endereço 200.98.178.100 cai na rede 200.98.160.0/19. A faixa válida começa em 200.98.160.1 e termina em 200.98.191.254. O broadcast é 200.98.191.255; o próximo bloco começa em 200.98.192.0."
+    },
+    {
+        "id": "ipv4-pptx-201-50-79-157-24",
+        "category": "IPv4",
+        "title": "Calcule 201.50.79.157/24",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 201.50.79.157/24\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 201.50.79.0, 1º IP válido 201.50.79.1, último IP válido 201.50.79.254, broadcast 201.50.79.255, próxima rede 201.50.80.0, máscara 255.255.255.0, hosts úteis 254.",
+        "solution": "O prefixo /24 deixa 8 bits para host. A máscara decimal é 255.255.255.0 e o bloco tem 256 endereços. O endereço 201.50.79.157 cai na rede 201.50.79.0/24. A faixa válida começa em 201.50.79.1 e termina em 201.50.79.254. O broadcast é 201.50.79.255; o próximo bloco começa em 201.50.80.0."
+    },
+    {
+        "id": "ipv4-pptx-178-87-148-135-25",
+        "category": "IPv4",
+        "title": "Calcule 178.87.148.135/25",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 178.87.148.135/25\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 178.87.148.128, 1º IP válido 178.87.148.129, último IP válido 178.87.148.254, broadcast 178.87.148.255, próxima rede 178.87.149.0, máscara 255.255.255.128, hosts úteis 126.",
+        "solution": "O prefixo /25 deixa 7 bits para host. A máscara decimal é 255.255.255.128 e o bloco tem 128 endereços. O endereço 178.87.148.135 cai na rede 178.87.148.128/25. A faixa válida começa em 178.87.148.129 e termina em 178.87.148.254. O broadcast é 178.87.148.255; o próximo bloco começa em 178.87.149.0."
+    },
+    {
+        "id": "ipv4-pptx-189-251-75-89-26",
+        "category": "IPv4",
+        "title": "Calcule 189.251.75.89/26",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 189.251.75.89/26\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 189.251.75.64, 1º IP válido 189.251.75.65, último IP válido 189.251.75.126, broadcast 189.251.75.127, próxima rede 189.251.75.128, máscara 255.255.255.192, hosts úteis 62.",
+        "solution": "O prefixo /26 deixa 6 bits para host. A máscara decimal é 255.255.255.192 e o bloco tem 64 endereços. O endereço 189.251.75.89 cai na rede 189.251.75.64/26. A faixa válida começa em 189.251.75.65 e termina em 189.251.75.126. O broadcast é 189.251.75.127; o próximo bloco começa em 189.251.75.128."
+    },
+    {
+        "id": "ipv4-pptx-168-125-97-110-27",
+        "category": "IPv4",
+        "title": "Calcule 168.125.97.110/27",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 168.125.97.110/27\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 168.125.97.96, 1º IP válido 168.125.97.97, último IP válido 168.125.97.126, broadcast 168.125.97.127, próxima rede 168.125.97.128, máscara 255.255.255.224, hosts úteis 30.",
+        "solution": "O prefixo /27 deixa 5 bits para host. A máscara decimal é 255.255.255.224 e o bloco tem 32 endereços. O endereço 168.125.97.110 cai na rede 168.125.97.96/27. A faixa válida começa em 168.125.97.97 e termina em 168.125.97.126. O broadcast é 168.125.97.127; o próximo bloco começa em 168.125.97.128."
+    },
+    {
+        "id": "ipv4-pptx-154-241-87-203-28",
+        "category": "IPv4",
+        "title": "Calcule 154.241.87.203/28",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 154.241.87.203/28\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 154.241.87.192, 1º IP válido 154.241.87.193, último IP válido 154.241.87.206, broadcast 154.241.87.207, próxima rede 154.241.87.208, máscara 255.255.255.240, hosts úteis 14.",
+        "solution": "O prefixo /28 deixa 4 bits para host. A máscara decimal é 255.255.255.240 e o bloco tem 16 endereços. O endereço 154.241.87.203 cai na rede 154.241.87.192/28. A faixa válida começa em 154.241.87.193 e termina em 154.241.87.206. O broadcast é 154.241.87.207; o próximo bloco começa em 154.241.87.208."
+    },
+    {
+        "id": "ipv4-pptx-225-46-72-149-29",
+        "category": "IPv4",
+        "title": "Calcule 225.46.72.149/29",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 225.46.72.149/29\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 225.46.72.144, 1º IP válido 225.46.72.145, último IP válido 225.46.72.150, broadcast 225.46.72.151, próxima rede 225.46.72.152, máscara 255.255.255.248, hosts úteis 6.",
+        "solution": "O prefixo /29 deixa 3 bits para host. A máscara decimal é 255.255.255.248 e o bloco tem 8 endereços. O endereço 225.46.72.149 cai na rede 225.46.72.144/29. A faixa válida começa em 225.46.72.145 e termina em 225.46.72.150. O broadcast é 225.46.72.151; o próximo bloco começa em 225.46.72.152."
+    },
+    {
+        "id": "ipv4-pptx-177-225-78-81-30",
+        "category": "IPv4",
+        "title": "Calcule 177.225.78.81/30",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 177.225.78.81/30\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 177.225.78.80, 1º IP válido 177.225.78.81, último IP válido 177.225.78.82, broadcast 177.225.78.83, próxima rede 177.225.78.84, máscara 255.255.255.252, hosts úteis 2.",
+        "solution": "O prefixo /30 deixa 2 bits para host. A máscara decimal é 255.255.255.252 e o bloco tem 4 endereços. O endereço 177.225.78.81 cai na rede 177.225.78.80/30. A faixa válida começa em 177.225.78.81 e termina em 177.225.78.82. O broadcast é 177.225.78.83; o próximo bloco começa em 177.225.78.84."
+    },
+    {
+        "id": "ipv4-pptx-128-174-200-189-23",
+        "category": "IPv4",
+        "title": "Calcule 128.174.200.189/23",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 128.174.200.189/23\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 128.174.200.0, 1º IP válido 128.174.200.1, último IP válido 128.174.201.254, broadcast 128.174.201.255, próxima rede 128.174.202.0, máscara 255.255.254.0, hosts úteis 510.",
+        "solution": "O prefixo /23 deixa 9 bits para host. A máscara decimal é 255.255.254.0 e o bloco tem 512 endereços. O endereço 128.174.200.189 cai na rede 128.174.200.0/23. A faixa válida começa em 128.174.200.1 e termina em 128.174.201.254. O broadcast é 128.174.201.255; o próximo bloco começa em 128.174.202.0."
+    },
+    {
+        "id": "ipv4-pptx-203-81-223-78-20",
+        "category": "IPv4",
+        "title": "Calcule 203.81.223.78/20",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 203.81.223.78/20\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 203.81.208.0, 1º IP válido 203.81.208.1, último IP válido 203.81.223.254, broadcast 203.81.223.255, próxima rede 203.81.224.0, máscara 255.255.240.0, hosts úteis 4094.",
+        "solution": "O prefixo /20 deixa 12 bits para host. A máscara decimal é 255.255.240.0 e o bloco tem 4096 endereços. O endereço 203.81.223.78 cai na rede 203.81.208.0/20. A faixa válida começa em 203.81.208.1 e termina em 203.81.223.254. O broadcast é 203.81.223.255; o próximo bloco começa em 203.81.224.0."
+    },
+    {
+        "id": "ipv4-pptx-148-95-123-58-14",
+        "category": "IPv4",
+        "title": "Calcule 148.95.123.58/14",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 148.95.123.58/14\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 148.92.0.0, 1º IP válido 148.92.0.1, último IP válido 148.95.255.254, broadcast 148.95.255.255, próxima rede 148.96.0.0, máscara 255.252.0.0, hosts úteis 262142.",
+        "solution": "O prefixo /14 deixa 18 bits para host. A máscara decimal é 255.252.0.0 e o bloco tem 262144 endereços. O endereço 148.95.123.58 cai na rede 148.92.0.0/14. A faixa válida começa em 148.92.0.1 e termina em 148.95.255.254. O broadcast é 148.95.255.255; o próximo bloco começa em 148.96.0.0."
+    },
+    {
+        "id": "ipv4-pptx-167-201-47-85-10",
+        "category": "IPv4",
+        "title": "Calcule 167.201.47.85/10",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 167.201.47.85/10\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 167.192.0.0, 1º IP válido 167.192.0.1, último IP válido 167.255.255.254, broadcast 167.255.255.255, próxima rede 168.0.0.0, máscara 255.192.0.0, hosts úteis 4194302.",
+        "solution": "O prefixo /10 deixa 22 bits para host. A máscara decimal é 255.192.0.0 e o bloco tem 4194304 endereços. O endereço 167.201.47.85 cai na rede 167.192.0.0/10. A faixa válida começa em 167.192.0.1 e termina em 167.255.255.254. O broadcast é 167.255.255.255; o próximo bloco começa em 168.0.0.0."
+    },
+    {
+        "id": "ipv4-pptx-225-91-158-98-7",
+        "category": "IPv4",
+        "title": "Calcule 225.91.158.98/7",
+        "sourceHtml": "IPv4 - Exercícios.pptx",
+        "prompt": "Endereço: 225.91.158.98/7\nPreencha os campos solicitados no exercício:\nRede:\n1º IP válido:\nÚltimo IP válido:\nBroadcast:\nPróxima rede:\nTambém confira a máscara decimal e a quantidade de hosts úteis do prefixo.",
+        "answer": "Rede 224.0.0.0, 1º IP válido 224.0.0.1, último IP válido 225.255.255.254, broadcast 225.255.255.255, próxima rede 226.0.0.0, máscara 254.0.0.0, hosts úteis 33554430.",
+        "solution": "O prefixo /7 deixa 25 bits para host. A máscara decimal é 254.0.0.0 e o bloco tem 33554432 endereços. O endereço 225.91.158.98 cai na rede 224.0.0.0/7. A faixa válida começa em 224.0.0.1 e termina em 225.255.255.254. O broadcast é 225.255.255.255; o próximo bloco começa em 226.0.0.0."
+    },
+    {
+        "id": "vlsm-pptx-a1000-b200-c50-d10-e2",
+        "category": "VLSM básico",
+        "title": "VLANs A=1000, B=200, C=50, D=10, E=2",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "Rede base: 10.0.0.0/8\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 1000 hosts\nVLAN B: 200 hosts\nVLAN C: 50 hosts\nVLAN D: 10 hosts\nVLAN E: 2 hosts",
+        "answer": "VLAN A: 10.0.0.0/22 | máscara 255.255.252.0 | broadcast 10.0.3.255 | hosts úteis 1022\nVLAN B: 10.0.4.0/24 | máscara 255.255.255.0 | broadcast 10.0.4.255 | hosts úteis 254\nVLAN C: 10.0.5.0/26 | máscara 255.255.255.192 | broadcast 10.0.5.63 | hosts úteis 62\nVLAN D: 10.0.5.64/28 | máscara 255.255.255.240 | broadcast 10.0.5.79 | hosts úteis 14\nVLAN E: 10.0.5.80/30 | máscara 255.255.255.252 | broadcast 10.0.5.83 | hosts úteis 2",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 10.0.0.0/8. Resultado:\nVLAN A: 10.0.0.0/22 | máscara 255.255.252.0 | broadcast 10.0.3.255 | hosts úteis 1022\nVLAN B: 10.0.4.0/24 | máscara 255.255.255.0 | broadcast 10.0.4.255 | hosts úteis 254\nVLAN C: 10.0.5.0/26 | máscara 255.255.255.192 | broadcast 10.0.5.63 | hosts úteis 62\nVLAN D: 10.0.5.64/28 | máscara 255.255.255.240 | broadcast 10.0.5.79 | hosts úteis 14\nVLAN E: 10.0.5.80/30 | máscara 255.255.255.252 | broadcast 10.0.5.83 | hosts úteis 2"
+    },
+    {
+        "id": "vlsm-pptx-a30000-b2000-c500-d100-e25",
+        "category": "VLSM básico",
+        "title": "VLANs A=30000, B=2000, C=500, D=100, E=25",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "Rede base: 172.16.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 30000 hosts\nVLAN B: 2000 hosts\nVLAN C: 500 hosts\nVLAN D: 100 hosts\nVLAN E: 25 hosts",
+        "answer": "VLAN A: 172.16.0.0/17 | máscara 255.255.128.0 | broadcast 172.16.127.255 | hosts úteis 32766\nVLAN B: 172.16.128.0/21 | máscara 255.255.248.0 | broadcast 172.16.135.255 | hosts úteis 2046\nVLAN C: 172.16.136.0/23 | máscara 255.255.254.0 | broadcast 172.16.137.255 | hosts úteis 510\nVLAN D: 172.16.138.0/25 | máscara 255.255.255.128 | broadcast 172.16.138.127 | hosts úteis 126\nVLAN E: 172.16.138.128/27 | máscara 255.255.255.224 | broadcast 172.16.138.159 | hosts úteis 30",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 172.16.0.0/16. Resultado:\nVLAN A: 172.16.0.0/17 | máscara 255.255.128.0 | broadcast 172.16.127.255 | hosts úteis 32766\nVLAN B: 172.16.128.0/21 | máscara 255.255.248.0 | broadcast 172.16.135.255 | hosts úteis 2046\nVLAN C: 172.16.136.0/23 | máscara 255.255.254.0 | broadcast 172.16.137.255 | hosts úteis 510\nVLAN D: 172.16.138.0/25 | máscara 255.255.255.128 | broadcast 172.16.138.127 | hosts úteis 126\nVLAN E: 172.16.138.128/27 | máscara 255.255.255.224 | broadcast 172.16.138.159 | hosts úteis 30"
+    },
+    {
+        "id": "vlsm-pptx-a1800-b450-c180-d38-e12",
+        "category": "VLSM básico",
+        "title": "VLANs A=1800, B=450, C=180, D=38, E=12",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "Rede base: 192.168.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 1800 hosts\nVLAN B: 450 hosts\nVLAN C: 180 hosts\nVLAN D: 38 hosts\nVLAN E: 12 hosts",
+        "answer": "VLAN A: 192.168.0.0/21 | máscara 255.255.248.0 | broadcast 192.168.7.255 | hosts úteis 2046\nVLAN B: 192.168.8.0/23 | máscara 255.255.254.0 | broadcast 192.168.9.255 | hosts úteis 510\nVLAN C: 192.168.10.0/24 | máscara 255.255.255.0 | broadcast 192.168.10.255 | hosts úteis 254\nVLAN D: 192.168.11.0/26 | máscara 255.255.255.192 | broadcast 192.168.11.63 | hosts úteis 62\nVLAN E: 192.168.11.64/28 | máscara 255.255.255.240 | broadcast 192.168.11.79 | hosts úteis 14",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 192.168.0.0/16. Resultado:\nVLAN A: 192.168.0.0/21 | máscara 255.255.248.0 | broadcast 192.168.7.255 | hosts úteis 2046\nVLAN B: 192.168.8.0/23 | máscara 255.255.254.0 | broadcast 192.168.9.255 | hosts úteis 510\nVLAN C: 192.168.10.0/24 | máscara 255.255.255.0 | broadcast 192.168.10.255 | hosts úteis 254\nVLAN D: 192.168.11.0/26 | máscara 255.255.255.192 | broadcast 192.168.11.63 | hosts úteis 62\nVLAN E: 192.168.11.64/28 | máscara 255.255.255.240 | broadcast 192.168.11.79 | hosts úteis 14"
+    },
+    {
+        "id": "vlsm-pptx-a600-b220-c100-d55-e4",
+        "category": "VLSM básico",
+        "title": "VLANs A=600, B=220, C=100, D=55, E=4",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "Rede base: 192.168.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 600 hosts\nVLAN B: 220 hosts\nVLAN C: 100 hosts\nVLAN D: 55 hosts\nVLAN E: 4 hosts",
+        "answer": "VLAN A: 192.168.0.0/22 | máscara 255.255.252.0 | broadcast 192.168.3.255 | hosts úteis 1022\nVLAN B: 192.168.4.0/24 | máscara 255.255.255.0 | broadcast 192.168.4.255 | hosts úteis 254\nVLAN C: 192.168.5.0/25 | máscara 255.255.255.128 | broadcast 192.168.5.127 | hosts úteis 126\nVLAN D: 192.168.5.128/26 | máscara 255.255.255.192 | broadcast 192.168.5.191 | hosts úteis 62\nVLAN E: 192.168.5.192/29 | máscara 255.255.255.248 | broadcast 192.168.5.199 | hosts úteis 6",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 192.168.0.0/16. Resultado:\nVLAN A: 192.168.0.0/22 | máscara 255.255.252.0 | broadcast 192.168.3.255 | hosts úteis 1022\nVLAN B: 192.168.4.0/24 | máscara 255.255.255.0 | broadcast 192.168.4.255 | hosts úteis 254\nVLAN C: 192.168.5.0/25 | máscara 255.255.255.128 | broadcast 192.168.5.127 | hosts úteis 126\nVLAN D: 192.168.5.128/26 | máscara 255.255.255.192 | broadcast 192.168.5.191 | hosts úteis 62\nVLAN E: 192.168.5.192/29 | máscara 255.255.255.248 | broadcast 192.168.5.199 | hosts úteis 6"
+    },
+    {
+        "id": "vlsm-gateway-pptx-5500-1100-500-100",
+        "category": "VLSM com gateway",
+        "title": "RT_BORDER VLANs 10=5500, 20=1100, 30=500, 40=100",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado e complete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.\n\nRede base: 10.0.0.0/8\nRT_BORDER | Interface | Rede | Hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.10 | VLAN 10 | 5500 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.20 | VLAN 20 | 1100 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.30 | VLAN 30 | 500 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.40 | VLAN 40 | 100 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal",
+        "answer": "VLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/21 | gateway 10.0.39.254 | máscara 255.255.248.0 | broadcast 10.0.39.255\nVLAN 30: 10.0.40.0/23 | gateway 10.0.41.254 | máscara 255.255.254.0 | broadcast 10.0.41.255\nVLAN 40: 10.0.42.0/25 | gateway 10.0.42.126 | máscara 255.255.255.128 | broadcast 10.0.42.127",
+        "solution": "Como o gateway pedido é o último endereço válido, use broadcast - 1 em cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco de cada prefixo. Resultado:\nVLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/21 | gateway 10.0.39.254 | máscara 255.255.248.0 | broadcast 10.0.39.255\nVLAN 30: 10.0.40.0/23 | gateway 10.0.41.254 | máscara 255.255.254.0 | broadcast 10.0.41.255\nVLAN 40: 10.0.42.0/25 | gateway 10.0.42.126 | máscara 255.255.255.128 | broadcast 10.0.42.127"
+    },
+    {
+        "id": "vlsm-gateway-pptx-300-200-50-20",
+        "category": "VLSM com gateway",
+        "title": "RT_BORDER VLANs 10=300, 20=200, 30=50, 40=20",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado e complete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.\n\nRede base: 10.0.0.0/8\nRT_BORDER | Interface | Rede | Hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.10 | VLAN 10 | 300 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.20 | VLAN 20 | 200 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.30 | VLAN 30 | 50 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.40 | VLAN 40 | 20 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal",
+        "answer": "VLAN 10: 10.0.0.0/23 | gateway 10.0.1.254 | máscara 255.255.254.0 | broadcast 10.0.1.255\nVLAN 20: 10.0.2.0/24 | gateway 10.0.2.254 | máscara 255.255.255.0 | broadcast 10.0.2.255\nVLAN 30: 10.0.3.0/26 | gateway 10.0.3.62 | máscara 255.255.255.192 | broadcast 10.0.3.63\nVLAN 40: 10.0.3.64/27 | gateway 10.0.3.94 | máscara 255.255.255.224 | broadcast 10.0.3.95",
+        "solution": "Como o gateway pedido é o último endereço válido, use broadcast - 1 em cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco de cada prefixo. Resultado:\nVLAN 10: 10.0.0.0/23 | gateway 10.0.1.254 | máscara 255.255.254.0 | broadcast 10.0.1.255\nVLAN 20: 10.0.2.0/24 | gateway 10.0.2.254 | máscara 255.255.255.0 | broadcast 10.0.2.255\nVLAN 30: 10.0.3.0/26 | gateway 10.0.3.62 | máscara 255.255.255.192 | broadcast 10.0.3.63\nVLAN 40: 10.0.3.64/27 | gateway 10.0.3.94 | máscara 255.255.255.224 | broadcast 10.0.3.95"
+    },
+    {
+        "id": "vlsm-gateway-pptx-8100-4050-220-60",
+        "category": "VLSM com gateway",
+        "title": "RT_BORDER VLANs 10=8100, 20=4050, 30=220, 40=60",
+        "sourceHtml": "Exercício VLSM.pptx",
+        "prompt": "De acordo com a topologia, realize o cálculo de sub-rede para endereçar as VLANs conforme o número de hosts. Defina o último endereço válido para Gateway de cada VLAN conforme sua sub-rede. Utilize endereçamento base classe A privado e complete a tabela com Endereço de Rede/Máscara, Endereço IP do Gateway e Máscara em decimal.\n\nRede base: 10.0.0.0/8\nRT_BORDER | Interface | Rede | Hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.10 | VLAN 10 | 8100 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.20 | VLAN 20 | 4050 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.30 | VLAN 30 | 220 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal\ng0/0.40 | VLAN 40 | 60 hosts | Endereço de Rede/Máscara | Endereço IP do Gateway | Máscara em decimal",
+        "answer": "VLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/20 | gateway 10.0.47.254 | máscara 255.255.240.0 | broadcast 10.0.47.255\nVLAN 30: 10.0.48.0/24 | gateway 10.0.48.254 | máscara 255.255.255.0 | broadcast 10.0.48.255\nVLAN 40: 10.0.49.0/26 | gateway 10.0.49.62 | máscara 255.255.255.192 | broadcast 10.0.49.63",
+        "solution": "Como o gateway pedido é o último endereço válido, use broadcast - 1 em cada sub-rede. As VLANs são alocadas da maior para a menor, respeitando o tamanho de bloco de cada prefixo. Resultado:\nVLAN 10: 10.0.0.0/19 | gateway 10.0.31.254 | máscara 255.255.224.0 | broadcast 10.0.31.255\nVLAN 20: 10.0.32.0/20 | gateway 10.0.47.254 | máscara 255.255.240.0 | broadcast 10.0.47.255\nVLAN 30: 10.0.48.0/24 | gateway 10.0.48.254 | máscara 255.255.255.0 | broadcast 10.0.48.255\nVLAN 40: 10.0.49.0/26 | gateway 10.0.49.62 | máscara 255.255.255.192 | broadcast 10.0.49.63"
     }
-  ],
+],
   "practiceGuides": [
     {
       "id": "packet-tracer",

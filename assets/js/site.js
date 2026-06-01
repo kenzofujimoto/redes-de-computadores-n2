@@ -166,10 +166,10 @@
 
     const body = el('div', {class:'exercise-body'});
     body.append(text('p', exercise.prompt, {class:'prompt'}));
-    body.append(text('div', `Resposta: ${exercise.answer}`, {class:'answer-box'}));
     const toggle = text('button', 'Mostrar resolução', {type:'button', class:'solution-toggle', 'aria-expanded':'false'});
     const solution = el('div', {class:'solution'});
     solution.hidden = true;
+    solution.append(text('div', `Resposta: ${exercise.answer}`, {class:'answer-box'}));
     solution.append(text('p', exercise.solution));
     toggle.addEventListener('click', () => {
       solution.hidden = !solution.hidden;
