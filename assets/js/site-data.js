@@ -473,36 +473,380 @@ window.NETWORK_SITE_DATA = {
         "category": "VLSM básico",
         "title": "VLANs A=1000, B=200, C=50, D=10, E=2",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "Rede base: 10.0.0.0/8\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 1000 hosts\nVLAN B: 200 hosts\nVLAN C: 50 hosts\nVLAN D: 10 hosts\nVLAN E: 2 hosts",
-        "answer": "VLAN A: 10.0.0.0/22 | máscara 255.255.252.0 | broadcast 10.0.3.255 | hosts úteis 1022\nVLAN B: 10.0.4.0/24 | máscara 255.255.255.0 | broadcast 10.0.4.255 | hosts úteis 254\nVLAN C: 10.0.5.0/26 | máscara 255.255.255.192 | broadcast 10.0.5.63 | hosts úteis 62\nVLAN D: 10.0.5.64/28 | máscara 255.255.255.240 | broadcast 10.0.5.79 | hosts úteis 14\nVLAN E: 10.0.5.80/30 | máscara 255.255.255.252 | broadcast 10.0.5.83 | hosts úteis 2",
-        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 10.0.0.0/8. Resultado:\nVLAN A: 10.0.0.0/22 | máscara 255.255.252.0 | broadcast 10.0.3.255 | hosts úteis 1022\nVLAN B: 10.0.4.0/24 | máscara 255.255.255.0 | broadcast 10.0.4.255 | hosts úteis 254\nVLAN C: 10.0.5.0/26 | máscara 255.255.255.192 | broadcast 10.0.5.63 | hosts úteis 62\nVLAN D: 10.0.5.64/28 | máscara 255.255.255.240 | broadcast 10.0.5.79 | hosts úteis 14\nVLAN E: 10.0.5.80/30 | máscara 255.255.255.252 | broadcast 10.0.5.83 | hosts úteis 2"
+        "prompt": "Rede base: 10.0.0.0/8\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.",
+        "answer": "VLAN A: 10.0.0.0/22, máscara 255.255.252.0, broadcast 10.0.3.255, hosts úteis 1022\nVLAN B: 10.0.4.0/24, máscara 255.255.255.0, broadcast 10.0.4.255, hosts úteis 254\nVLAN C: 10.0.5.0/26, máscara 255.255.255.192, broadcast 10.0.5.63, hosts úteis 62\nVLAN D: 10.0.5.64/28, máscara 255.255.255.240, broadcast 10.0.5.79, hosts úteis 14\nVLAN E: 10.0.5.80/30, máscara 255.255.255.252, broadcast 10.0.5.83, hosts úteis 2",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporte hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 10.0.0.0/8. A tabela preenchida abaixo mostra a sub-rede otimizada, a máscara decimal, o broadcast e a capacidade útil de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "1000 hosts",
+                    ""
+                ],
+                [
+                    "VLAN B",
+                    "200 hosts",
+                    ""
+                ],
+                [
+                    "VLAN C",
+                    "50 hosts",
+                    ""
+                ],
+                [
+                    "VLAN D",
+                    "10 hosts",
+                    ""
+                ],
+                [
+                    "VLAN E",
+                    "2 hosts",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara",
+                "Máscara decimal",
+                "Broadcast",
+                "Hosts úteis"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "1000",
+                    "10.0.0.0/22",
+                    "255.255.252.0",
+                    "10.0.3.255",
+                    "1022"
+                ],
+                [
+                    "VLAN B",
+                    "200",
+                    "10.0.4.0/24",
+                    "255.255.255.0",
+                    "10.0.4.255",
+                    "254"
+                ],
+                [
+                    "VLAN C",
+                    "50",
+                    "10.0.5.0/26",
+                    "255.255.255.192",
+                    "10.0.5.63",
+                    "62"
+                ],
+                [
+                    "VLAN D",
+                    "10",
+                    "10.0.5.64/28",
+                    "255.255.255.240",
+                    "10.0.5.79",
+                    "14"
+                ],
+                [
+                    "VLAN E",
+                    "2",
+                    "10.0.5.80/30",
+                    "255.255.255.252",
+                    "10.0.5.83",
+                    "2"
+                ]
+            ]
+        }
     },
     {
         "id": "vlsm-pptx-a30000-b2000-c500-d100-e25",
         "category": "VLSM básico",
         "title": "VLANs A=30000, B=2000, C=500, D=100, E=25",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "Rede base: 172.16.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 30000 hosts\nVLAN B: 2000 hosts\nVLAN C: 500 hosts\nVLAN D: 100 hosts\nVLAN E: 25 hosts",
-        "answer": "VLAN A: 172.16.0.0/17 | máscara 255.255.128.0 | broadcast 172.16.127.255 | hosts úteis 32766\nVLAN B: 172.16.128.0/21 | máscara 255.255.248.0 | broadcast 172.16.135.255 | hosts úteis 2046\nVLAN C: 172.16.136.0/23 | máscara 255.255.254.0 | broadcast 172.16.137.255 | hosts úteis 510\nVLAN D: 172.16.138.0/25 | máscara 255.255.255.128 | broadcast 172.16.138.127 | hosts úteis 126\nVLAN E: 172.16.138.128/27 | máscara 255.255.255.224 | broadcast 172.16.138.159 | hosts úteis 30",
-        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 172.16.0.0/16. Resultado:\nVLAN A: 172.16.0.0/17 | máscara 255.255.128.0 | broadcast 172.16.127.255 | hosts úteis 32766\nVLAN B: 172.16.128.0/21 | máscara 255.255.248.0 | broadcast 172.16.135.255 | hosts úteis 2046\nVLAN C: 172.16.136.0/23 | máscara 255.255.254.0 | broadcast 172.16.137.255 | hosts úteis 510\nVLAN D: 172.16.138.0/25 | máscara 255.255.255.128 | broadcast 172.16.138.127 | hosts úteis 126\nVLAN E: 172.16.138.128/27 | máscara 255.255.255.224 | broadcast 172.16.138.159 | hosts úteis 30"
+        "prompt": "Rede base: 172.16.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.",
+        "answer": "VLAN A: 172.16.0.0/17, máscara 255.255.128.0, broadcast 172.16.127.255, hosts úteis 32766\nVLAN B: 172.16.128.0/21, máscara 255.255.248.0, broadcast 172.16.135.255, hosts úteis 2046\nVLAN C: 172.16.136.0/23, máscara 255.255.254.0, broadcast 172.16.137.255, hosts úteis 510\nVLAN D: 172.16.138.0/25, máscara 255.255.255.128, broadcast 172.16.138.127, hosts úteis 126\nVLAN E: 172.16.138.128/27, máscara 255.255.255.224, broadcast 172.16.138.159, hosts úteis 30",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporte hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 172.16.0.0/16. A tabela preenchida abaixo mostra a sub-rede otimizada, a máscara decimal, o broadcast e a capacidade útil de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "30000 hosts",
+                    ""
+                ],
+                [
+                    "VLAN B",
+                    "2000 hosts",
+                    ""
+                ],
+                [
+                    "VLAN C",
+                    "500 hosts",
+                    ""
+                ],
+                [
+                    "VLAN D",
+                    "100 hosts",
+                    ""
+                ],
+                [
+                    "VLAN E",
+                    "25 hosts",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara",
+                "Máscara decimal",
+                "Broadcast",
+                "Hosts úteis"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "30000",
+                    "172.16.0.0/17",
+                    "255.255.128.0",
+                    "172.16.127.255",
+                    "32766"
+                ],
+                [
+                    "VLAN B",
+                    "2000",
+                    "172.16.128.0/21",
+                    "255.255.248.0",
+                    "172.16.135.255",
+                    "2046"
+                ],
+                [
+                    "VLAN C",
+                    "500",
+                    "172.16.136.0/23",
+                    "255.255.254.0",
+                    "172.16.137.255",
+                    "510"
+                ],
+                [
+                    "VLAN D",
+                    "100",
+                    "172.16.138.0/25",
+                    "255.255.255.128",
+                    "172.16.138.127",
+                    "126"
+                ],
+                [
+                    "VLAN E",
+                    "25",
+                    "172.16.138.128/27",
+                    "255.255.255.224",
+                    "172.16.138.159",
+                    "30"
+                ]
+            ]
+        }
     },
     {
         "id": "vlsm-pptx-a1800-b450-c180-d38-e12",
         "category": "VLSM básico",
         "title": "VLANs A=1800, B=450, C=180, D=38, E=12",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "Rede base: 192.168.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 1800 hosts\nVLAN B: 450 hosts\nVLAN C: 180 hosts\nVLAN D: 38 hosts\nVLAN E: 12 hosts",
-        "answer": "VLAN A: 192.168.0.0/21 | máscara 255.255.248.0 | broadcast 192.168.7.255 | hosts úteis 2046\nVLAN B: 192.168.8.0/23 | máscara 255.255.254.0 | broadcast 192.168.9.255 | hosts úteis 510\nVLAN C: 192.168.10.0/24 | máscara 255.255.255.0 | broadcast 192.168.10.255 | hosts úteis 254\nVLAN D: 192.168.11.0/26 | máscara 255.255.255.192 | broadcast 192.168.11.63 | hosts úteis 62\nVLAN E: 192.168.11.64/28 | máscara 255.255.255.240 | broadcast 192.168.11.79 | hosts úteis 14",
-        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 192.168.0.0/16. Resultado:\nVLAN A: 192.168.0.0/21 | máscara 255.255.248.0 | broadcast 192.168.7.255 | hosts úteis 2046\nVLAN B: 192.168.8.0/23 | máscara 255.255.254.0 | broadcast 192.168.9.255 | hosts úteis 510\nVLAN C: 192.168.10.0/24 | máscara 255.255.255.0 | broadcast 192.168.10.255 | hosts úteis 254\nVLAN D: 192.168.11.0/26 | máscara 255.255.255.192 | broadcast 192.168.11.63 | hosts úteis 62\nVLAN E: 192.168.11.64/28 | máscara 255.255.255.240 | broadcast 192.168.11.79 | hosts úteis 14"
+        "prompt": "Rede base: 192.168.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.",
+        "answer": "VLAN A: 192.168.0.0/21, máscara 255.255.248.0, broadcast 192.168.7.255, hosts úteis 2046\nVLAN B: 192.168.8.0/23, máscara 255.255.254.0, broadcast 192.168.9.255, hosts úteis 510\nVLAN C: 192.168.10.0/24, máscara 255.255.255.0, broadcast 192.168.10.255, hosts úteis 254\nVLAN D: 192.168.11.0/26, máscara 255.255.255.192, broadcast 192.168.11.63, hosts úteis 62\nVLAN E: 192.168.11.64/28, máscara 255.255.255.240, broadcast 192.168.11.79, hosts úteis 14",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporte hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 192.168.0.0/16. A tabela preenchida abaixo mostra a sub-rede otimizada, a máscara decimal, o broadcast e a capacidade útil de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "1800 hosts",
+                    ""
+                ],
+                [
+                    "VLAN B",
+                    "450 hosts",
+                    ""
+                ],
+                [
+                    "VLAN C",
+                    "180 hosts",
+                    ""
+                ],
+                [
+                    "VLAN D",
+                    "38 hosts",
+                    ""
+                ],
+                [
+                    "VLAN E",
+                    "12 hosts",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara",
+                "Máscara decimal",
+                "Broadcast",
+                "Hosts úteis"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "1800",
+                    "192.168.0.0/21",
+                    "255.255.248.0",
+                    "192.168.7.255",
+                    "2046"
+                ],
+                [
+                    "VLAN B",
+                    "450",
+                    "192.168.8.0/23",
+                    "255.255.254.0",
+                    "192.168.9.255",
+                    "510"
+                ],
+                [
+                    "VLAN C",
+                    "180",
+                    "192.168.10.0/24",
+                    "255.255.255.0",
+                    "192.168.10.255",
+                    "254"
+                ],
+                [
+                    "VLAN D",
+                    "38",
+                    "192.168.11.0/26",
+                    "255.255.255.192",
+                    "192.168.11.63",
+                    "62"
+                ],
+                [
+                    "VLAN E",
+                    "12",
+                    "192.168.11.64/28",
+                    "255.255.255.240",
+                    "192.168.11.79",
+                    "14"
+                ]
+            ]
+        }
     },
     {
         "id": "vlsm-pptx-a600-b220-c100-d55-e4",
         "category": "VLSM básico",
         "title": "VLANs A=600, B=220, C=100, D=55, E=4",
         "sourceHtml": "Exercício VLSM.pptx",
-        "prompt": "Rede base: 192.168.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.\n\nRede | Hosts | Endereço de Rede / Máscara\nVLAN A: 600 hosts\nVLAN B: 220 hosts\nVLAN C: 100 hosts\nVLAN D: 55 hosts\nVLAN E: 4 hosts",
-        "answer": "VLAN A: 192.168.0.0/22 | máscara 255.255.252.0 | broadcast 192.168.3.255 | hosts úteis 1022\nVLAN B: 192.168.4.0/24 | máscara 255.255.255.0 | broadcast 192.168.4.255 | hosts úteis 254\nVLAN C: 192.168.5.0/25 | máscara 255.255.255.128 | broadcast 192.168.5.127 | hosts úteis 126\nVLAN D: 192.168.5.128/26 | máscara 255.255.255.192 | broadcast 192.168.5.191 | hosts úteis 62\nVLAN E: 192.168.5.192/29 | máscara 255.255.255.248 | broadcast 192.168.5.199 | hosts úteis 6",
-        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporta hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 192.168.0.0/16. Resultado:\nVLAN A: 192.168.0.0/22 | máscara 255.255.252.0 | broadcast 192.168.3.255 | hosts úteis 1022\nVLAN B: 192.168.4.0/24 | máscara 255.255.255.0 | broadcast 192.168.4.255 | hosts úteis 254\nVLAN C: 192.168.5.0/25 | máscara 255.255.255.128 | broadcast 192.168.5.127 | hosts úteis 126\nVLAN D: 192.168.5.128/26 | máscara 255.255.255.192 | broadcast 192.168.5.191 | hosts úteis 62\nVLAN E: 192.168.5.192/29 | máscara 255.255.255.248 | broadcast 192.168.5.199 | hosts úteis 6"
+        "prompt": "Rede base: 192.168.0.0/16\nComplete a tabela do exercício com Endereço de Rede / Máscara para cada rede, usando VLSM de forma otimizada.",
+        "answer": "VLAN A: 192.168.0.0/22, máscara 255.255.252.0, broadcast 192.168.3.255, hosts úteis 1022\nVLAN B: 192.168.4.0/24, máscara 255.255.255.0, broadcast 192.168.4.255, hosts úteis 254\nVLAN C: 192.168.5.0/25, máscara 255.255.255.128, broadcast 192.168.5.127, hosts úteis 126\nVLAN D: 192.168.5.128/26, máscara 255.255.255.192, broadcast 192.168.5.191, hosts úteis 62\nVLAN E: 192.168.5.192/29, máscara 255.255.255.248, broadcast 192.168.5.199, hosts úteis 6",
+        "solution": "Ordene as redes da maior demanda para a menor e escolha o menor prefixo que comporte hosts + 2 endereços. Depois aloque blocos contíguos sem sobreposição a partir de 192.168.0.0/16. A tabela preenchida abaixo mostra a sub-rede otimizada, a máscara decimal, o broadcast e a capacidade útil de cada VLAN.",
+        "promptTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "600 hosts",
+                    ""
+                ],
+                [
+                    "VLAN B",
+                    "220 hosts",
+                    ""
+                ],
+                [
+                    "VLAN C",
+                    "100 hosts",
+                    ""
+                ],
+                [
+                    "VLAN D",
+                    "55 hosts",
+                    ""
+                ],
+                [
+                    "VLAN E",
+                    "4 hosts",
+                    ""
+                ]
+            ]
+        },
+        "answerTable": {
+            "headers": [
+                "Rede",
+                "Hosts",
+                "Endereço de Rede / Máscara",
+                "Máscara decimal",
+                "Broadcast",
+                "Hosts úteis"
+            ],
+            "rows": [
+                [
+                    "VLAN A",
+                    "600",
+                    "192.168.0.0/22",
+                    "255.255.252.0",
+                    "192.168.3.255",
+                    "1022"
+                ],
+                [
+                    "VLAN B",
+                    "220",
+                    "192.168.4.0/24",
+                    "255.255.255.0",
+                    "192.168.4.255",
+                    "254"
+                ],
+                [
+                    "VLAN C",
+                    "100",
+                    "192.168.5.0/25",
+                    "255.255.255.128",
+                    "192.168.5.127",
+                    "126"
+                ],
+                [
+                    "VLAN D",
+                    "55",
+                    "192.168.5.128/26",
+                    "255.255.255.192",
+                    "192.168.5.191",
+                    "62"
+                ],
+                [
+                    "VLAN E",
+                    "4",
+                    "192.168.5.192/29",
+                    "255.255.255.248",
+                    "192.168.5.199",
+                    "6"
+                ]
+            ]
+        }
     },
     {
         "id": "vlsm-gateway-pptx-5500-1100-500-100",
